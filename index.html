@@ -382,16 +382,16 @@
 </div>
 <div>
 <label class="block text-sm font-medium text-brand-purple mb-2">Melting Waste (grams)</label>
-<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="meltingWaste" placeholder="Enter waste in grams (e.g., 2)" type="number" value="2"/>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="meltingWaste" placeholder="Enter waste in grams (e.g., 2)" type="number" value=" Enter grams "/>
 </div>
 <div>
 <label class="block text-sm font-medium text-brand-purple mb-2">Base Gold Rate (24K per gram)</label>
-<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="baseGoldRate" placeholder="₹7,200" type="number" value="7200" onchange="updatePurityPrice()"/>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="baseGoldRate" placeholder=" Enter Rate " type="number" value=" " onchange="updatePurityPrice()"/>
 </div>
 <div>
 <label class="block text-sm font-medium text-brand-purple mb-2">Actual Rate for Selected Purity</label>
 <input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="purityRate" placeholder="₹6,595.2" type="number" readonly/>
-<p class="text-xs text-brand-purple mt-1" id="calculationDisplay">₹7,200 × 91.6% = ₹6,595.2</p>
+<p class="text-xs text-brand-purple mt-1" id="calculationDisplay">₹0 × 91.6% = ₹0</p>
 </div>
 <button class="w-full bg-brand-purple text-white py-3 rounded-lg font-semibold btn-hover" onclick="calculateGoldValue()">Calculate Value</button>
 </div>
