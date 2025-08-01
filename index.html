@@ -6,6 +6,8 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Mani Chakra Gold Fin - Gold Loan Services</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
         tailwind.config = {
             theme: {
@@ -67,16 +69,77 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
         }
+        
+        .slider {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            animation: slideIn 1s ease-in-out;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .slide-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .slide-indicator.active {
+            background-color: #8c52ff;
+        }
+
+        .gold-rate-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        }
+        
+        .gold-rate-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(140, 82, 255, 0.15);
+        }
+        
+        .rate-trend {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #8c52ff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-white pt-20">
+
 <!-- Header -->
-<header class="bg-brand-yellow shadow-lg">
+<header class="bg-brand-yellow shadow-lg border-b-4 border-brand-purple fixed top-0 left-0 right-0 z-50">
 <div class="container mx-auto px-4 py-4">
 <div class="flex items-center justify-between">
 <div class="flex items-center space-x-5">
 <!-- Your Logo -->
-<img class="w-12 h-12 rounded-full object-cover bg-white" src="1000090814-removebg-preview.png"/>
+<img class="w-12 h-12 rounded-full object-cover bg-white" src="C:\Users\mmcpr\Downloads\1000120408_b85c756a9e9aedadb2859d53f6410907-12_17_2024, 11_25_21 AM.png"/>
 <div>
 <h1 class="text-2xl font-bold text-brand-purple animate-fade-in">Mani Chakra Gold Fin</h1>
 <p class="text-brand-purple/80 text-sm animate-fade-in-delay">Professional Gold Loan Services</p>
@@ -86,512 +149,553 @@
 <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#home">Home</a>
 <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#services">Services</a>
 <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#gold-sale">Gold Valuation</a>
-<a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#request">Request Service</a>
 <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#contact">Contact</a>
 </nav>
 </div>
 </div>
 </header>
-<!-- Hero Section -->
-<section class="py-16 bg-white" id="home">
-<div class="container mx-auto px-4 text-center">
-<h2 class="text-4xl font-bold text-gray-800 mb-6 animate-slide-up">Expert Gold Loan Services</h2>
-<p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-delay">
-                We provide professional gold loan services including takeovers, part releases, and renewals. 
-                Let us help you manage your existing gold loans with ease and expertise.
+
+<!-- Hero Slider Section -->
+<section class="slider bg-gradient-to-r from-brand-purple to-purple-700 h-96 relative">
+    <div class="slide active items-center justify-between container mx-auto px-4 h-full">
+        <div class="flex-1 text-center">
+            <div class="mb-6 relative">
+                <!-- Gold Bars and Coins Graphic -->
+                <div class="relative w-48 h-32 mx-auto">
+                    <!-- Gold Bars -->
+                    <div class="absolute top-4 left-8 w-20 h-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-sm shadow-lg transform rotate-12">
+                        <div class="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-sm">
+                            <div class="text-xs font-bold text-yellow-800 text-center mt-2">GOLD</div>
+                            <div class="text-xs text-yellow-800 text-center">999.9</div>
+                        </div>
+                    </div>
+                    <div class="absolute top-8 left-16 w-20 h-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-sm shadow-lg transform -rotate-6">
+                        <div class="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-sm">
+                            <div class="text-xs font-bold text-yellow-800 text-center mt-2">GOLD</div>
+                            <div class="text-xs text-yellow-800 text-center">999.9</div>
+                        </div>
+                    </div>
+                    <!-- Gold Coins -->
+                    <div class="absolute top-2 right-8 w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg">
+                        <div class="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full flex items-center justify-center">
+                            <span class="text-xs font-bold text-yellow-800">₹</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-6 right-12 w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg">
+                        <div class="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full flex items-center justify-center">
+                            <span class="text-xs font-bold text-yellow-800">₹</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-10 right-16 w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg">
+                        <div class="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full flex items-center justify-center">
+                            <span class="text-xs font-bold text-yellow-800">₹</span>
+                        </div>
+                    </div>
+                    <!-- Sparkle Effects -->
+                    <div class="absolute top-0 left-4 text-white text-2xl animate-pulse">✨</div>
+                    <div class="absolute bottom-0 right-4 text-white text-xl animate-pulse" style="animation-delay: 0.5s;">✨</div>
+                    <div class="absolute top-6 left-0 text-white text-lg animate-pulse" style="animation-delay: 1s;">✨</div>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-white mb-4">Gold is Value</h2>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">
+                Gold has been a symbol of wealth and security for centuries. Trust in the enduring value of your precious metal investments.
             </p>
-<a class="inline-block bg-brand-purple text-white px-8 py-3 rounded-lg font-semibold btn-hover animate-fade-in-delay" href="#request">
-                Request Service Now
-            </a>
-</div>
+        </div>
+    </div>
+    
+    <div class="slide items-center justify-between container mx-auto px-4 h-full">
+        <div class="flex-1 text-center">
+            <div class="mb-6 relative">
+                <!-- Decision Path Graphic -->
+                <div class="relative w-56 h-32 mx-auto">
+                    <!-- Path Lines -->
+                    <div class="absolute top-16 left-8 w-40 h-1 bg-white/30 rounded"></div>
+                    <div class="absolute top-8 left-20 w-1 h-16 bg-white/30 rounded transform rotate-45 origin-bottom"></div>
+                    <div class="absolute top-8 right-20 w-1 h-16 bg-white/30 rounded transform -rotate-45 origin-bottom"></div>
+                    
+                    <!-- Decision Points -->
+                    <div class="absolute top-14 left-6 w-8 h-8 bg-brand-yellow rounded-full flex items-center justify-center shadow-lg">
+                        <span class="text-brand-purple font-bold text-sm">?</span>
+                    </div>
+                    
+                    <!-- Wrong Choice (X) -->
+                    <div class="absolute top-4 left-16 w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-lg opacity-50">
+                        <span class="text-white font-bold text-xl">✗</span>
+                    </div>
+                    
+                    <!-- Right Choice (Checkmark) -->
+                    <div class="absolute top-4 right-16 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-xl">✓</span>
+                    </div>
+                    
+                    <!-- Target/Goal -->
+                    <div class="absolute top-14 right-6 w-8 h-8 bg-brand-yellow rounded-full flex items-center justify-center shadow-lg">
+                        <span class="text-brand-purple font-bold text-sm">🎯</span>
+                    </div>
+                    
+                    <!-- Arrow pointing to right choice -->
+                    <div class="absolute top-0 right-12 text-brand-yellow text-2xl animate-bounce">⬇️</div>
+                    
+                    <!-- Success indicators -->
+                    <div class="absolute top-2 right-4 text-white text-lg animate-pulse">⭐</div>
+                    <div class="absolute bottom-2 right-8 text-white text-sm animate-pulse" style="animation-delay: 0.3s;">💰</div>
+                    <div class="absolute bottom-4 left-12 text-white text-lg animate-pulse" style="animation-delay: 0.6s;">📈</div>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-white mb-4">Right Choice</h2>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">
+                Making informed decisions about your gold loans ensures financial stability. Choose wisely with our expert guidance.
+            </p>
+        </div>
+    </div>
+    
+    <div class="slide items-center justify-between container mx-auto px-4 h-full">
+        <div class="flex-1 text-center">
+            <div class="mb-6 relative">
+                <!-- Trust and Integrity Graphic -->
+                <div class="relative w-52 h-32 mx-auto">
+                    <!-- Foundation Base -->
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-brand-yellow to-yellow-400 rounded-lg shadow-lg"></div>
+                    
+                    <!-- Pillars of Trust -->
+                    <div class="absolute bottom-8 left-12 w-8 h-16 bg-gradient-to-t from-white to-gray-100 rounded-t-lg shadow-lg">
+                        <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 text-brand-yellow text-lg">🤝</div>
+                    </div>
+                    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-8 h-16 bg-gradient-to-t from-white to-gray-100 rounded-t-lg shadow-lg">
+                        <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 text-brand-yellow text-lg">💎</div>
+                    </div>
+                    <div class="absolute bottom-8 right-12 w-8 h-16 bg-gradient-to-t from-white to-gray-100 rounded-t-lg shadow-lg">
+                        <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 text-brand-yellow text-lg">⚖️</div>
+                    </div>
+                    
+                    <!-- Central Star of Excellence -->
+                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-brand-yellow to-yellow-500 rounded-full flex items-center justify-center shadow-xl">
+                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full flex items-center justify-center">
+                            <span class="text-2xl">⭐</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Trust Elements -->
+                    <div class="absolute top-2 left-4 text-white text-lg animate-pulse">🌟</div>
+                    <div class="absolute top-6 right-4 text-white text-lg animate-pulse" style="animation-delay: 0.4s;">✨</div>
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 text-white text-sm animate-pulse" style="animation-delay: 0.8s;">💫</div>
+                    
+                    <!-- Trust Labels -->
+                    <div class="absolute bottom-0 left-6 text-xs text-white/80 font-semibold">TRUST</div>
+                    <div class="absolute bottom-0 left-20 right-3 text-xs text-white/80 font-semibold">HONOR</div>
+                    <div class="absolute bottom-0 left-2 right-10 text-xs text-white/80 font-semibold">TRUTH</div>
+                    <div class="absolute bottom-0 Left-10 right-3 text-xs text-white/80 font-semibold">CARE</div>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-white mb-4">Moral Never Fails</h2>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">
+                Built on trust and integrity, our moral foundation ensures transparent and honest service in every transaction.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Slide Indicators -->
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        <button class="slide-indicator active w-3 h-3 rounded-full bg-brand-purple/50" onclick="currentSlide(1)"></button>
+        <button class="slide-indicator w-3 h-3 rounded-full bg-brand-purple/50" onclick="currentSlide(2)"></button>
+        <button class="slide-indicator w-3 h-3 rounded-full bg-brand-purple/50" onclick="currentSlide(3)"></button>
+    </div>
+    
+    <!-- Navigation Arrows -->
+    <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 transition-all duration-300" onclick="plusSlides(-1)">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
+    <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 transition-all duration-300" onclick="plusSlides(1)">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+    </button>
 </section>
+
 <!-- Services Section -->
-<section class="py-16 bg-gray-100" id="services">
+<section class="py-16 bg-white" id="services">
 <div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
+<h2 class="text-3xl font-bold text-center text-gray-800 mb-12 animate-fade-in">Our Services</h2>
 <div class="grid md:grid-cols-3 gap-8">
-<!-- Takeovers -->
-<div class="service-card bg-white rounded-lg shadow-lg p-8 text-center">
+<div class="service-card bg-white p-8 rounded-lg shadow-md text-center">
 <div class="w-16 h-16 bg-brand-yellow rounded-full flex items-center justify-center mx-auto mb-6">
-<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewbox="0 0 20 20">
-<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
 </svg>
 </div>
-<h3 class="text-xl font-bold text-gray-800 mb-4">Gold Loan Takeovers</h3>
-<p class="text-gray-600 mb-6">Transfer your existing gold loan to a better lender with improved terms and lower interest rates.</p>
-<ul class="text-sm text-gray-500 space-y-2">
-<li>• Better interest rates</li>
-<li>• Simplified documentation</li>
-<li>• Quick processing</li>
-</ul>
+<h3 class="text-xl font-semibold text-gray-800 mb-4">Gold Loan Takeover</h3>
+<p class="text-gray-600 mb-6">Transfer your existing gold loan to us for better rates and terms. We handle all the paperwork and make the process seamless.</p>
+<button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('takeover')">Learn More</button>
 </div>
-<!-- Part Releases -->
-<div class="service-card bg-white rounded-lg shadow-lg p-8 text-center">
+<div class="service-card bg-white p-8 rounded-lg shadow-md text-center">
 <div class="w-16 h-16 bg-brand-yellow rounded-full flex items-center justify-center mx-auto mb-6">
-<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewbox="0 0 20 20">
-<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
 </svg>
 </div>
-<h3 class="text-xl font-bold text-gray-800 mb-4">Part Releases</h3>
-<p class="text-gray-600 mb-6">Release a portion of your pledged gold by making partial payments on your existing loan.</p>
-<ul class="text-sm text-gray-500 space-y-2">
-<li>• Flexible partial payments</li>
-<li>• Quick gold release</li>
-<li>• Minimal paperwork</li>
-</ul>
+<h3 class="text-xl font-semibold text-gray-800 mb-4">Part Release</h3>
+<p class="text-gray-600 mb-6">Release part of your gold ornaments by paying a portion of your loan amount. Get back what you need while keeping the loan active.</p>
+<button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('release')">Learn More</button>
 </div>
-<!-- Renewals -->
-<div class="service-card bg-white rounded-lg shadow-lg p-8 text-center">
+<div class="service-card bg-white p-8 rounded-lg shadow-md text-center">
 <div class="w-16 h-16 bg-brand-yellow rounded-full flex items-center justify-center mx-auto mb-6">
-<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewbox="0 0 20 20">
-<path d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"></path>
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
 </svg>
 </div>
-<h3 class="text-xl font-bold text-gray-800 mb-4">Loan Renewals</h3>
-<p class="text-gray-600 mb-6">Extend your gold loan tenure with easy renewal processes and competitive rates.</p>
-<ul class="text-sm text-gray-500 space-y-2">
-<li>• Easy renewal process</li>
-<li>• Competitive rates</li>
-<li>• Extended tenure options</li>
-</ul>
+<h3 class="text-xl font-semibold text-gray-800 mb-4">Loan Renewal</h3>
+<p class="text-gray-600 mb-6">Extend your gold loan tenure with flexible renewal options. Pay interest and continue your loan for the period you need.</p>
+<button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('renewal')">Learn More</button>
 </div>
 </div>
 </div>
 </section>
 
 
-<!-- Live Gold Rate Section -->
-<section class="py-16 bg-brand-yellow" id="live-gold-rate">
-<div class="container mx-auto px-4 text-center">
-<h2 class="text-3xl font-bold text-brand-purple mb-4">Gold Rate</h2>
-<p class="text-brand-purple text-lg mb-6">Check today’s 22KT and 24KT gold prices per gram</p>
 
-
-
-<!-- Display only -->
-<section id="livegold">
-  <style>
-    #livegold {
-      background: #8c52ff;
-      border: 2px solid #8c52FF;
-      border-radius: 12px;
-      padding: 25px;
-      margin: 30px auto;
-      box-shadow: 0 0 25px rgba(140, 82, 255, 0.4);
-      max-width: 360px;
-      animation: fadeSlide 1s ease-out;
-    }
-    .gold-rate-label {
-      color: #ffcc00;
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin: 15px 0;
-      animation: glowGold 2s infinite alternate;
-    }
-    b {
-      color: #FFFFFF;
-      font-size: 1.4rem;
-    }
-
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes glowGold {
-      0% { text-shadow: 0 0 5px #ffcc00; }
-      100% { text-shadow: 0 0 15px #fff000; }
-    }
-  </style>
-
-  <div class="text-sm mt-1 text-white" style="text-align: center;">
-    <b>Today’s Price (INR)</b><br>
-    <div class="gold-rate-label">22KT: ₹ <span id="rate22k">--</span> /gram</div>
-    <div class="gold-rate-label">24KT: ₹ <span id="rate24k">--</span> /gram</div>
-  </div>
-</section>
- </div>
- 
- 
-  
-<!-- Gold Sale Calculator -->
-<section class="py-16 bg-white" id="gold-sale">
+<!-- Gold Valuation Section -->
+<section class="py-16 bg-gradient-to-br from-brand-purple to-purple-700" id="gold-sale">
 <div class="container mx-auto px-4">
-<div class="max-w-2xl mx-auto">
-<h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Gold Sale Calculator</h2>
-<p class="text-center text-gray-600 mb-8">Calculate the value of your gold instantly with our easy-to-use calculator</p>
-<div class="bg-gray-50 rounded-lg p-8 shadow-lg">
-<div class="grid md:grid-cols-2 gap-6 mb-6">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-3xl font-bold text-center text-white mb-12 animate-fade-in">Gold Valuation Calculator</h2>
+<div class="bg-gradient-to-r from-brand-yellow to-yellow-400 p-8 rounded-lg shadow-md">
+<div class="grid md:grid-cols-2 gap-8">
 <div>
-<label class="block text-gray-700 font-semibold mb-2">Per Gram Rate (₹) *</label>
-<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" id="perGramRate" oninput="calculateGoldValue()" placeholder="Enter rate per gram" required="" type="number"/>
-</div>
+<h3 class="text-xl font-semibold text-brand-purple mb-6">Calculate Your Gold Value</h3>
+<div class="space-y-4">
 <div>
-<label class="block text-gray-700 font-semibold mb-2">Weight (Grams) *</label>
-<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" id="goldWeight" oninput="calculateGoldValue()" placeholder="Enter weight in grams" required="" step="0.01" type="number"/>
-</div>
-</div>
-<div class="mb-6">
-<label class="block text-gray-700 font-semibold mb-2">Gold Type *</label>
-<div class="flex space-x-4">
-<label class="flex items-center">
-<input checked="" class="mr-2 text-brand-purple focus:ring-brand-purple" name="goldType" onchange="calculateGoldValue()" type="radio" value="916kdm"/>
-<span class="text-gray-700">916 KDM</span>
-</label>
-<label class="flex items-center">
-<input class="mr-2 text-brand-purple focus:ring-brand-purple" name="goldType" onchange="calculateGoldValue()" type="radio" value="nonkdm"/>
-<span class="text-gray-700">Non KDM</span>
-</label>
-</div>
-</div>
-<div class="mb-6">
-<label class="block text-gray-700 font-semibold mb-2">Wastage Deduction (Grams)</label>
-<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" id="wastageDeduction" oninput="calculateGoldValue()" placeholder="Enter wastage in grams" step="0.01" type="number"/>
-</div>
-<div class="bg-brand-purple rounded-lg p-6 text-center">
-<h3 class="text-white text-lg font-semibold mb-4">Valuation Breakdown</h3>
-<div class="space-y-2 text-white/90 text-sm mb-4">
-<div class="flex justify-between">
-<span>Base Value:</span>
-<span id="baseValue">₹ 0</span>
-</div>
-<div class="flex justify-between">
-<span>After Wastage Deduction:</span>
-<span id="purityValue">₹ 0</span>
-</div>
-<div class="flex justify-between">
-<span>Wastage Deduction:</span>
-<span id="wastageValue">0g</span>
-</div>
-<hr class="border-white/30"/>
-</div>
-<div class="text-brand-yellow text-2xl font-bold">
-                            Total Amount: <span id="totalAmount">₹ 0</span>
-</div>
-</div>
-<div class="mt-6 text-center">
-<button class="bg-brand-yellow text-brand-purple px-6 py-2 rounded-lg font-semibold btn-hover mr-4" onclick="resetCalculator()">
-                            Reset Calculator
-                        </button>
-<button class="bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold btn-hover" onclick="printCalculation()">
-                            Print Calculation
-                        </button>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Customer Request Form -->
-<section class="py-16 bg-brand-purple" id="request">
-<div class="container mx-auto px-4">
-<div class="max-w-2xl mx-auto">
-<h2 class="text-3xl font-bold text-center text-white mb-8">Request Our Services</h2>
-<p class="text-center text-white/90 mb-8">Fill out the form below and our team will contact you within 24 hours</p>
-
-
-<form action="https://formsubmit.co/manichakragoldfin@gmail.com" class="bg-gray-50 rounded-lg p-8 shadow-lg" enctype="multipart/form-data" method="POST" target="_blank">
-<div class="grid md:grid-cols-2 gap-6 mb-6">
-<div>
-<label class="block text-gray-700 font-semibold mb-2">Customer Name *</label>
-<input name="Customer Name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" placeholder="Enter your full name" required="" type="text"/>
-</div>
-<div>
-<label class="block text-gray-700 font-semibold mb-2">Mobile Number *</label>
-<input name="Mobile Number" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" placeholder="Enter your mobile number" required="" type="tel"/>
-</div>
-</div>
-<div class="grid md:grid-cols-2 gap-6 mb-6">
-<div>
-<label class="block text-gray-700 font-semibold mb-2">Existing Gold Loan Bank *</label>
-<input name="Existing Gold Loan Bank" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" placeholder="Enter bank name" required="" type="text"/>
-</div>
-<div>
-<label class="block text-gray-700 font-semibold mb-2">Settlement Amount *</label>
-<input name="Settlement Amount" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" placeholder="Enter amount in ₹" required="" type="number"/>
-</div>
-</div>
-<div class="mb-6">
-<label class="block text-gray-700 font-semibold mb-2">Service Required *</label>
-<select name="Service Required" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" required="">
-<option value="">Select service</option>
-<option value="takeover">Gold Loan Takeover</option>
-<option value="part-release">Part Release</option>
-<option value="renewal">Loan Renewal</option>
+<label class="block text-sm font-medium text-brand-purple mb-2">Gold Purity (Karat)</label>
+<select class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="goldPurity" onchange="updatePurityPrice()">
+<option value="24">24K (99.9% Pure)</option>
+<option value="22" selected="">22K (91.6% Pure)</option>
+<option value="20">20K (83.3% Pure)</option>
+<option value="18">18K (75% Pure)</option>
+<option value="14">14K (58.3% Pure)</option>
 </select>
 </div>
-<div class="mb-6">
-<label class="block text-gray-700 font-semibold mb-2">Upload Documents</label>
-<div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-<input name="attachment" accept=".pdf,.jpg,.jpeg,.png" class="hidden" id="fileUpload" multiple="" onchange="handleFileUpload(event)" type="file"/>
-<label class="cursor-pointer" for="fileUpload">
-<svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewbox="0 0 48 48">
-<path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<p class="text-gray-600">Click to upload documents</p>
-<p class="text-sm text-gray-500">PDF, JPG, PNG files accepted</p>
-</label>
+<div>
+<label class="block text-sm font-medium text-brand-purple mb-2">Weight (in grams)</label>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="goldWeight" placeholder="Enter weight in grams" type="number"/>
 </div>
-<div class="mt-4" id="fileList"></div>
+<div>
+<label class="block text-sm font-medium text-brand-purple mb-2">Melting Waste (grams)</label>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="meltingWaste" placeholder="Enter waste in grams (e.g., 2)" type="number" value="2"/>
 </div>
-<div class="mb-6">
-<label class="block text-gray-700 font-semibold mb-2">Additional Comments</label>
-<textarea class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-purple" placeholder="Any additional information or requirements" rows="4"></textarea>
+<div>
+<label class="block text-sm font-medium text-brand-purple mb-2">Base Gold Rate (24K per gram)</label>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="baseGoldRate" placeholder="₹7,200" type="number" value="7200" onchange="updatePurityPrice()"/>
 </div>
-<button class="w-full bg-brand-yellow text-brand-purple py-3 rounded-lg font-semibold btn-hover" type="submit">Submit Request</button>
-</form>
+<div>
+<label class="block text-sm font-medium text-brand-purple mb-2">Actual Rate for Selected Purity</label>
+<input class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-brand-purple focus:border-transparent" id="purityRate" placeholder="₹6,595.2" type="number" readonly/>
+<p class="text-xs text-brand-purple mt-1" id="calculationDisplay">₹7,200 × 91.6% = ₹6,595.2</p>
+</div>
+<button class="w-full bg-brand-purple text-white py-3 rounded-lg font-semibold btn-hover" onclick="calculateGoldValue()">Calculate Value</button>
 </div>
 </div>
-</section>
-<!-- About Me Section -->
-<section class="py-16 bg-white" id="about">
-<div class="container mx-auto px-4 max-w-4xl">
-<h2 class="text-3xl font-bold text-center text-brand-purple mb-8">About Me</h2>
-<div class="bg-gray-100 p-6 rounded-lg shadow-md text-gray-800 leading-relaxed text-lg">
-<p class="mb-4">
-                Hi, I'm <strong>Prathap</strong>, founder of <strong>Mani Chakra Gold Fin</strong>. With over <strong>10 years of experience</strong> in the finance and gold loan industry, I’ve worked with multiple reputed institutions and gained deep knowledge of how the system works — and more importantly, how it can work better for you.
-            </p>
-<p class="mb-4">
-                After years in the field, I realized that many customers are stuck with <strong>high-interest gold loans</strong> and don’t even know they have better options. I saw people struggling to shift their gold from one lender to another simply because of <strong>a lack of money or proper guidance</strong>. That’s when the idea of Mani Chakra Gold Fin was born — and I decided to act on it immediately.
-            </p>
-<p class="mb-4">
-                Our mission is simple: to help people <strong>break free from high-interest loans</strong>, guide them to the <strong>best banks</strong> offering <strong>low interest rates</strong> and <strong>high gram value</strong>, and assist them through the entire process — including arranging takeover amounts and handling all the documentation.
-            </p>
-<p>
-                At Mani Chakra Gold Fin, we don’t just offer gold loan services. We offer peace of mind, freedom from high interest, and a chance to get more out of your gold — because every gram matters.
-            </p>
+<div>
+<h3 class="text-xl font-semibold text-brand-purple mb-6">Valuation Result</h3>
+<div class="bg-white p-6 rounded-lg border-2 border-brand-purple shadow-lg">
+<div class="text-center">
+<div class="text-2xl font-bold text-gray-600 mb-2" id="actualWeight">Actual Weight: 0g</div>
+<div class="text-3xl font-bold text-brand-purple mb-2" id="goldValue">₹0</div>
+<p class="text-gray-600 mb-4">Estimated Gold Value (After Melting Waste)</p>
+<div class="text-xl font-semibold text-green-600 mb-2" id="loanAmount">₹0</div>
+<p class="text-gray-600 text-sm">Approximate Loan Amount (80% of value)</p>
+</div>
+<div class="mt-6 p-4 bg-purple-50 rounded-lg border border-brand-purple">
+<p class="text-sm text-brand-purple">
+<strong>Note:</strong> This is an estimated value after deducting melting waste. Actual valuation may vary based on current market rates, gold purity verification, and other factors.
+                        </p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
+
 <!-- Contact Section -->
 <section class="py-16 bg-brand-yellow" id="contact">
-<div class="container mx-auto px-4 text-center">
-<h2 class="text-3xl font-bold text-brand-purple mb-8">Get In Touch</h2>
+<div class="container mx-auto px-4">
+<h2 class="text-3xl font-bold text-center text-brand-purple mb-12 animate-fade-in">Contact Us</h2>
 <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-<div class="text-brand-purple">
-<div class="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4">
-<svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20">
-<path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-<path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+<div class="text-center">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
 </svg>
 </div>
-<h3 class="font-semibold mb-2">Email</h3>
-<p>manichakragoldfin@gmail.com</p>
-</div>
-<div class="text-brand-purple">
-<div class="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4">
-<svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20">
-<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+<h3 class="text-xl font-semibold text-brand-purple mb-2">Phone</h3>
+<p class="text-brand-purple/80">+91 90003 45694</p>
+</div> 
+<div class="text-center">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
 </svg>
 </div>
-<h3 class="font-semibold mb-2">Phone</h3>
-<p>+91 9000345694</p>
+<h3 class="text-xl font-semibold text-brand-purple mb-2">Email</h3>
+<p class="text-brand-purple/80">manichakragoldfin@gmail.com</p>
+<p class="text-brand-purple/80">""</p>
 </div>
-<div class="text-brand-purple">
-<div class="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center mx-auto mb-4">
-<svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20">
-<path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+<div class="text-center">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+<svg class="w-8 h-8 text-brand-purple" fill="currentColor" viewBox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
 </svg>
 </div>
-<h3 class="font-semibold mb-2">Office</h3>
-<p>Annamaih District, Rajampeta City</p>
+<h3 class="text-xl font-semibold text-brand-purple mb-2">Address</h3>
+<p class="text-brand-purple/80">RS Road </p>
+<p class="text-brand-purple/80">Rajampet </p>
 </div>
 </div>
 </div>
 </section>
+
 <!-- Footer -->
-<footer class="bg-gray-800 text-white py-8">
-<div class="container mx-auto px-4 text-center">
-<div class="flex items-center justify-center space-x-4 mb-4">
-<div class="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center">
-<span class="text-brand-yellow font-bold text-sm"><img class="w-12 h-12 rounded-full object-cover bg-white" src="1000090814-removebg-preview.png"/></span>
+<footer class="bg-brand-purple text-white py-8">
+<div class="container mx-auto px-4">
+<div class="grid md:grid-cols-4 gap-8">
+<div>
+<h3 class="text-xl font-bold mb-4">Mani Chakra Gold Fin</h3>
+<p class="text-purple-200">Professional gold loan services with trust and transparency. Your financial partner for all gold loan needs.</p>
 </div>
-<span class="text-xl font-bold">Mani Chakra Gold Fin</span>
+<div>
+<h4 class="text-lg font-semibold mb-4">Services</h4>
+<ul class="space-y-2 text-purple-200">
+<li>Gold Loan Takeover</li>
+<li>Part Release</li>
+<li>Loan Renewal</li>
+<li>Gold Valuation</li>
+</ul>
 </div>
-<p class="text-gray-400 mb-4">Professional Gold Loan Services - Takeovers, Part Releases &amp; Renewals</p>
-<p class="text-sm text-gray-500">© 2024 Mani Chakra Gold Fin. All rights reserved.</p>
+<div>
+<h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+<ul class="space-y-2 text-purple-200">
+<li><a class="hover:text-white transition-colors" href="#home">Home</a></li>
+<li><a class="hover:text-white transition-colors" href="#services">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="#gold-sale">Gold Valuation</a></li>
+<li><a class="hover:text-white transition-colors" href="#contact">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Business Hours</h4>
+<ul class="space-y-2 text-purple-200">
+<li>Monday - Friday: 9:00 AM - 6:00 PM</li>
+<li>Saturday: 9:00 AM - 4:00 PM</li>
+<li>Sunday: Closed</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-purple-400 mt-8 pt-8 text-center text-purple-200">
+<p>© 2024 Mani Chakra Gold Fin. All rights reserved.</p>
+</div>
 </div>
 </footer>
+
+<!-- Service Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" id="serviceModal">
+<div class="bg-white p-8 rounded-lg max-w-md mx-4">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold text-gray-800" id="modalTitle">Service Details</h3>
+<button class="text-gray-500 hover:text-gray-700" onclick="closeServiceModal()">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</svg>
+</button>
+</div>
+<div class="text-gray-600" id="modalContent">
+<!-- Content will be populated by JavaScript -->
+</div>
+<div class="mt-6">
+<button class="w-full bg-brand-purple text-white py-2 rounded-lg btn-hover" onclick="closeServiceModal()">Close</button>
+</div>
+</div>
+</div>
+
 <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+    let slideIndex = 1;
+    let slideInterval;
+
+    // Initialize slider
+    document.addEventListener('DOMContentLoaded', function() {
+        showSlides(slideIndex);
+        startAutoSlide();
+    });
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+        resetAutoSlide();
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+        resetAutoSlide();
+    }
+
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("slide");
+        let dots = document.getElementsByClassName("slide-indicator");
+        
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
+        }
+        
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.remove("active");
+        }
+        
+        slides[slideIndex-1].classList.add("active");
+        dots[slideIndex-1].classList.add("active");
+    }
+
+    function startAutoSlide() {
+        slideInterval = setInterval(function() {
+            slideIndex++;
+            showSlides(slideIndex);
+        }, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(slideInterval);
+        startAutoSlide();
+    }
+
+
+
+    // Gold Calculator
+    function updatePurityPrice() {
+        const purity = parseFloat(document.getElementById('goldPurity').value);
+        const baseRate = parseFloat(document.getElementById('baseGoldRate').value) || 7200;
+        
+        const purityPercentages = {
+            24: { percent: 99.9, decimal: 0.999 },
+            22: { percent: 91.6, decimal: 0.916 },
+            20: { percent: 83.3, decimal: 0.833 },
+            18: { percent: 75.0, decimal: 0.75 },
+            14: { percent: 58.3, decimal: 0.583 }
+        };
+        
+        const purityData = purityPercentages[purity];
+        const actualRate = baseRate * purityData.decimal;
+        
+        document.getElementById('purityRate').value = actualRate.toFixed(1);
+        document.getElementById('calculationDisplay').textContent = 
+            `₹${baseRate.toLocaleString('en-IN')} × ${purityData.percent}% = ₹${actualRate.toFixed(1)}`;
+    }
+    
+    // Initialize purity price on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updatePurityPrice();
+    });
+    
+    function calculateGoldValue() {
+        const purity = parseFloat(document.getElementById('goldPurity').value);
+        const weight = parseFloat(document.getElementById('goldWeight').value);
+        const meltingWaste = parseFloat(document.getElementById('meltingWaste').value) || 0;
+        const purityRate = parseFloat(document.getElementById('purityRate').value);
+        
+        if (!weight || !purityRate) {
+            alert('Please enter valid weight');
+            return;
+        }
+        
+        // Calculate actual weight after deducting melting waste in grams
+        const actualWeight = weight - meltingWaste;
+        
+        // Calculate total value based on actual weight and purity rate
+        const totalValue = actualWeight * purityRate;
+        const loanAmount = totalValue * 0.8; // 80% of gold value
+        
+        document.getElementById('actualWeight').textContent = `Actual Weight: ${actualWeight.toFixed(2)}g`;
+        document.getElementById('goldValue').textContent = `₹${totalValue.toLocaleString('en-IN')}`;
+        document.getElementById('loanAmount').textContent = `₹${loanAmount.toLocaleString('en-IN')}`;
+    }
+    
+    // Service Modal
+    function openServiceModal(service) {
+        const modal = document.getElementById('serviceModal');
+        const title = document.getElementById('modalTitle');
+        const content = document.getElementById('modalContent');
+        
+        const serviceInfo = {
+            takeover: {
+                title: 'Gold Loan Takeover',
+                content: `
+                    <h4 class="font-semibold mb-3">Benefits of Gold Loan Takeover:</h4>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li>Lower interest rates</li>
+                        <li>Better loan terms</li>
+                        <li>Flexible repayment options</li>
+                        <li>No hidden charges</li>
+                        <li>Quick processing</li>
+                    </ul>
+                    <p class="text-sm">We handle all documentation and coordinate with your existing lender for a smooth transfer process.</p>
+                `
+            },
+            release: {
+                title: 'Part Release Service',
+                content: `
+                    <h4 class="font-semibold mb-3">Part Release Features:</h4>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li>Release specific ornaments</li>
+                        <li>Pay only proportional amount</li>
+                        <li>Keep remaining loan active</li>
+                        <li>Same day processing</li>
+                        <li>Minimal documentation</li>
+                    </ul>
+                    <p class="text-sm">Perfect for special occasions when you need specific jewelry pieces back temporarily or permanently.</p>
+                `
+            },
+            renewal: {
+                title: 'Loan Renewal Service',
+                content: `
+                    <h4 class="font-semibold mb-3">Renewal Options:</h4>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li>Extend loan tenure</li>
+                        <li>Pay interest only</li>
+                        <li>Flexible renewal periods</li>
+                        <li>No prepayment penalties</li>
+                        <li>Online renewal available</li>
+                    </ul>
+                    <p class="text-sm">Renew your gold loan easily and continue enjoying the benefits without any hassle.</p>
+                `
+            }
+        };
+        
+        title.textContent = serviceInfo[service].title;
+        content.innerHTML = serviceInfo[service].content;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    
+    function closeServiceModal() {
+        const modal = document.getElementById('serviceModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-            });
+            }
         });
-
-        // File upload handler
-        function handleFileUpload(event) {
-            const files = event.target.files;
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const fileItem = document.createElement('div');
-                fileItem.className = 'flex items-center justify-between bg-white p-3 rounded border mb-2';
-                fileItem.innerHTML = `
-                    <span class="text-sm text-gray-700">${file.name}</span>
-                    <span class="text-xs text-gray-500">${(file.size / 1024).toFixed(1)} KB</span>
-                `;
-                fileList.appendChild(fileItem);
-            }
-        }
-
-        // Gold Calculator Functions
-        function calculateGoldValue() {
-            const perGramRate = parseFloat(document.getElementById('perGramRate').value) || 0;
-            const goldWeight = parseFloat(document.getElementById('goldWeight').value) || 0;
-            const goldType = document.querySelector('input[name="goldType"]:checked').value;
-            const wastageGrams = parseFloat(document.getElementById('wastageDeduction').value) || 0;
-            
-            // Calculate base value
-            const baseValue = perGramRate * goldWeight;
-            
-            // Calculate net weight after wastage deduction
-            const netWeight = Math.max(0, goldWeight - wastageGrams);
-            const netValue = perGramRate * netWeight;
-            
-            // Apply purity factor based on gold type
-            let finalAmount = netValue;
-            if (goldType === '916kdm') {
-                finalAmount = netValue; // 916 KDM uses full value
-            } else if (goldType === 'nonkdm') {
-                finalAmount = netValue * 0.80; // Non KDM gets 80%
-            }
-            
-            // Calculate wastage amount for display
-            const wastageAmount = perGramRate * wastageGrams;
-            
-            // Update display
-            document.getElementById('baseValue').textContent = `₹ ${baseValue.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
-            document.getElementById('purityValue').textContent = `₹ ${netValue.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
-            document.getElementById('wastageValue').textContent = `${wastageGrams}g`;
-            document.getElementById('totalAmount').textContent = `₹ ${finalAmount.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
-        }
-        
-        function resetCalculator() {
-            document.getElementById('perGramRate').value = '';
-            document.getElementById('goldWeight').value = '';
-            document.getElementById('wastageDeduction').value = '';
-            document.querySelector('input[name="goldType"][value="916kdm"]').checked = true;
-            
-            // Reset display
-            document.getElementById('baseValue').textContent = '₹ 0';
-            document.getElementById('purityValue').textContent = '₹ 0';
-            document.getElementById('wastageValue').textContent = '0g';
-            document.getElementById('totalAmount').textContent = '₹ 0';
-        }
-        
-        function printCalculation() {
-            const perGramRate = document.getElementById('perGramRate').value || '0';
-            const goldWeight = document.getElementById('goldWeight').value || '0';
-            const goldType = document.querySelector('input[name="goldType"]:checked').value;
-            const wastageDeduction = document.getElementById('wastageDeduction').value || '0';
-            const totalAmount = document.getElementById('totalAmount').textContent;
-            
-            const printContent = `
-                <div style="font-family: Arial, sans-serif; padding: 20px;">
-                    <h2 style="color: #8c52ff; text-align: center;">Mani Chakra Gold Fin</h2>
-                    <h3 style="text-align: center;">Gold Sale Valuation</h3>
-                    <hr>
-                    <p><strong>Per Gram Rate:</strong> ₹ ${perGramRate}</p>
-                    <p><strong>Weight:</strong> ${goldWeight} grams</p>
-                    <p><strong>Gold Type:</strong> ${goldType === '916kdm' ? '916 KDM' : 'Non KDM'}</p>
-                    <p><strong>Wastage Deduction:</strong> ₹ ${wastageDeduction}</p>
-                    <hr>
-                    <h3 style="color: #8c52ff;">Total Amount: ${totalAmount}</h3>
-                    <p style="font-size: 12px; color: #666;">Generated on: ${new Date().toLocaleString()}</p>
-                </div>
-            `;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        // Form submission handler
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            
-            // Show success message
-            const form = event.target;
-            const successMessage = document.createElement('div');
-            successMessage.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4';
-            successMessage.innerHTML = `
-                <strong>Success!</strong> Your request has been submitted. Our team will contact you within 24 hours.
-            `;
-            
-            form.parentNode.insertBefore(successMessage, form);
-            form.reset();
-            document.getElementById('fileList').innerHTML = '';
-            
-            // Remove success message after 5 seconds
-            setTimeout(() => {
-                successMessage.remove();
-            }, 5000);
-        }
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'963998c7150a570c',t:'MTc1MzI1NzEzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<!-- Chat Widget -->
-<div class="fixed bottom-6 right-6 z-50" id="chat-toggle">
-<button class="w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-white font-bold text-sm transition-all duration-300" id="chat-status-button" onclick="toggleChat()" style="background-color: red;">
-        Offline
-    </button>
-</div>
-<div class="fixed bottom-24 right-6 bg-white w-80 max-w-full rounded-lg shadow-lg p-4 hidden z-50" id="chat-box">
-<div class="flex justify-between items-center mb-2">
-<h4 class="font-semibold text-brand-purple">Chat with us</h4>
-<button class="text-gray-400 hover:text-gray-600" onclick="toggleChat()">×</button>
-</div>
-<div class="text-sm text-gray-600 mb-3" id="chat-status-message">We're currently offline. Leave your message.</div>
-<textarea class="w-full p-2 border rounded mb-2" id="chat-input" placeholder="Type your message..." rows="3"></textarea>
-<button class="bg-brand-purple text-white px-4 py-2 rounded w-full hover:bg-brand-purple/90" disabled="">
-        Send
-    </button>
-</div>
-</div></div></section><script>
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vROGUm2Om_10HASGJuM1LlYaLn3tAcpTkwWgNBk0413rs38bICPQLElQtXv4qNEJmP-zVYJRSanmq3d/pub?output=csv&cachebuster=" + new Date().getTime())
-  .then(response => response.text())
-  .then(csv => {
-    const [rate22k, rate24k] = csv.trim().split(",");
-    document.getElementById("rate22k").textContent = parseFloat(rate22k).toLocaleString('en-IN');
-    document.getElementById("rate24k").textContent = parseFloat(rate24k).toLocaleString('en-IN');
-  })
-  .catch(error => console.error("Gold rate fetch error:", error));
-</script></body>
-</html>
-
-<script>
-    let adminOnline = false; // default offline
-
-    function toggleAdminStatus() {
-        adminOnline = !adminOnline;
-        const statusButton = document.getElementById('chat-status-button');
-        const statusMessage = document.getElementById('chat-status-message');
-
-        if (adminOnline) {
-            statusButton.style.backgroundColor = 'green';
-            statusButton.textContent = 'Live';
-            statusMessage.textContent = "We're online. How can we help you?";
-        } else {
-            statusButton.style.backgroundColor = 'red';
-            statusButton.textContent = 'Offline';
-            statusMessage.textContent = "We're currently offline. Leave your message.";
-        }
-    }
-
-    function toggleChat() {
-        const chatBox = document.getElementById('chat-box');
-        chatBox.classList.toggle('hidden');
-    }
-
-    // Admin can press Ctrl+Shift+C to toggle live status
-    document.addEventListener('keydown', function (e) {
-        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-            toggleAdminStatus();
-        }
     });
 </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
