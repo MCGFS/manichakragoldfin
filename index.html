@@ -327,7 +327,7 @@
 </svg>
 </div>
 <h3 class="text-xl font-semibold text-gray-800 mb-4">Gold Loan Takeover</h3>
-<p class="text-gray-600 mb-6">Transfer your existing gold loan to bank for better rates and terms. We handle all the paperwork and amount to make the process seamless.</p>
+<p class="text-gray-600 mb-6">
 <button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('takeover')">Learn More</button>
 </div>
 <div class="service-card bg-white p-8 rounded-lg shadow-md text-center">
@@ -337,7 +337,7 @@
 </svg>
 </div>
 <h3 class="text-xl font-semibold text-gray-800 mb-4">Part Release</h3>
-<p class="text-gray-600 mb-6">Release part of your gold ornaments by paying a portion of your loan amount. Get back what you need while keeping the loan active.</p>
+
 <button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('release')">Learn More</button>
 </div>
 <div class="service-card bg-white p-8 rounded-lg shadow-md text-center">
@@ -347,7 +347,7 @@
 </svg>
 </div>
 <h3 class="text-xl font-semibold text-gray-800 mb-4">Loan Renewal</h3>
-<p class="text-gray-600 mb-6">Extend your gold loan tenure with flexible renewal options. Pay interest and continue your loan for the period you need.</p>
+
 <button class="bg-brand-purple text-white px-6 py-2 rounded-lg btn-hover" onclick="openServiceModal('renewal')">Learn More</button>
 </div>
 </div>
@@ -427,9 +427,6 @@
             </p>
             <p class="mb-4">
                 After years in the field, I realized that many customers are stuck with <strong>high-interest gold loans</strong> and don’t even know they have better options. I saw people struggling to shift their gold from one lender to another simply because of <strong>a lack of money or proper guidance</strong>. That’s when the idea of Mani Chakra Gold Fin was born — and I decided to act on it immediately.
-            </p>
-            <p class="mb-4">
-                Our mission is simple: <strong>break free from high-interest loans</strong>, guide them to the <strong>best banks</strong> offering <strong>low interest rates</strong> and <strong>high gram value</strong>, and assist them through the entire process — including arranging takeover amounts and handling all the documentation.
             </p>
             <p>
                 At Mani Chakra Gold Fin, we don’t just offer gold loan services. We offer peace of mind, freedom from high interest, and a chance to get more out of your gold — because every gram matters.
@@ -648,15 +645,21 @@
         
         const serviceInfo = {
             takeover: {
-                title: 'Gold Loan Takeover',
+                title: 'Gold Loan Transfer',
                 content: `
-                    <h4 class="font-semibold mb-3">Benefits of Gold Loan Takeover:</h4>
+                    <h4 class="font-semibold mb-3">Benefits of Gold Loan Transfer:</h4>
                     <ul class="list-disc list-inside space-y-2 mb-4">
-                        <li>Lower interest rates</li>
-                        <li>Better loan terms</li>
-                        <li>Flexible repayment options</li>
-                        <li>No hidden charges</li>
-                        <li>Quick processing</li>
+                        Many customers wish to transfer their gold loan from one lender to another to take advantage of:
+
+<li>Lower Rate of Interest (ROI) offered by the new lender</li>
+<li>Higher Per Gram Gold Value compared to their existing lender</li>
+
+However, to transfer a gold loan, you first need to fully close the existing loan before pledging with the new lender — and not everyone has the funds ready.At Mani Chakra Gold Fin, we make this process easy with our Gold Loan Transfer Service</p>
+
+                        <li>We arrange the required funds to close your existing gold loan</li>
+                        <li>We prepare all necessary documents for a smooth transfer</li>
+                        <li>We ensure your gold is safely moved and pledged with the new lender offering better terms</li>
+                       
                     </ul>
                     <p class="text-sm">We handle all documentation and coordinate with your existing lender for a smooth transfer process.</p>
                 `
@@ -666,13 +669,16 @@
                 content: `
                     <h4 class="font-semibold mb-3">Part Release Features:</h4>
                     <ul class="list-disc list-inside space-y-2 mb-4">
-                        <li>Release specific ornaments</li>
-                        <li>Pay only proportional amount</li>
-                        <li>Keep remaining loan active</li>
-                        <li>Same day processing</li>
-                        <li>Minimal documentation</li>
+<p class="text-gray-600 mb-6">Sometimes customers need only a few of their pledged ornaments back, but many banks and finance companies don’t offer a direct part release option. Instead, they demand full loan closure before releasing any gold.
+
+At Mani Chakra Gold Fin, we make this process simple and stress-free.
+If your lender insists on closing your gold loan completely, we will:</p>
+                        <li>Arrange the required funds to fully close your existing gold loan</li>
+                        <li>Release the ornaments you need from the pledged lot</li>
+                        <li>Re-pledge the remaining gold as a new loan in your name</li>
+                        <li>This means you get your required gold items without losing the financial benefit of keeping the rest pledged.</li>
                     </ul>
-                    <p class="text-sm">Perfect for special occasions when you need specific jewelry pieces back temporarily or permanently.</p>
+                   
                 `
             },
             renewal: {
@@ -680,14 +686,18 @@
                 content: `
                     <h4 class="font-semibold mb-3">Renewal Options:</h4>
                     <ul class="list-disc list-inside space-y-2 mb-4">
-                        <li>Extend loan tenure</li>
-                        <li>Pay interest only</li>
-                        <li>Flexible renewal periods</li>
-                        <li>No prepayment penalties</li>
-                        <li>Online renewal available</li>
+<p class="text-gray-600 mb-6">Some banks and financial institutions do not allow gold loan renewal with just the interest payment. Instead, they demand that customers fully repay and close the existing loan before they agree to issue a new loan.
+
+But not all customers have the funds to make full repayment at once. That’s where Mani Chakra Gold Fin steps in.
+
+We provide Gold Loan Renewal Services where:</p>
+                        <li>We arrange all the required funds to close your existing gold loan</li>
+                        <li>We complete the renewal process with your bank or lender</li>
+                        <li>We handle all necessary documents and formalities – you simply sit, sign, and relax.</li>
+                        <li>Mani Chakra Gold Fin – Making gold loan renewals easy, fast, and worry-free.</li>
+                        
                     </ul>
-                    <p class="text-sm">Renew your gold loan easily and continue enjoying the benefits without any hassle.</p>
-                `
+                   `
             }
         };
         
@@ -719,4 +729,5 @@
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
