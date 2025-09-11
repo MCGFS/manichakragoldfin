@@ -148,19 +148,6 @@
         
 </head>
 <body class="bg-white pt-20">
-<!-- Visitor Count -->
-        <div style="text-align:center; margin-top:20px; font-size:14px; color:#333;">
-    Visitors: <span id="visitor-count">Loading...</span>
-</div>
-
-<script>
-fetch('https://api.countapi.xyz/hit/manichakra-gold-fin/visits')
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('visitor-count').innerText = data.value;
-    });
-</script>
-
 
 <!-- Header -->
 <header class="bg-brand-yellow shadow-lg border-b-4 border-brand-purple fixed top-0 left-0 right-0 z-50">
@@ -551,6 +538,28 @@ fetch('https://api.countapi.xyz/hit/manichakra-gold-fin/visits')
 <p>© 2024 Mani Chakra Gold Fin. All rights reserved.</p>
 </div>
 </div>
+<!-- Visitor Counter -->
+<div style="text-align:center; padding:10px; font-size:14px; color:#8c52f0; background:#ffcc00; border-radius:8px;">
+    👁️ Visitors: <span id="visitor-count">Loading...</span>
+</div>
+
+<script>
+    // Use a unique namespace + key
+    const namespace = "manichakra_goldfin";
+    const key = "site_visitors";
+
+    fetch(`https://api.countapi.xyz/update/${namespace}/${key}/?amount=1`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("visitor-count").innerText = data.value;
+        })
+        .catch(err => {
+            document.getElementById("visitor-count").innerText = "Error";
+            console.error("Visitor counter error:", err);
+        });
+</script>
+
+        
 </footer>
 
 <!-- Service Modal -->
@@ -767,6 +776,7 @@ We provide Gold Loan Renewal Services where:</p>
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
