@@ -769,8 +769,64 @@ We provide Gold Loan Renewal Services where:</p>
         });
     });
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+
+
+        
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Show popup automatically when page loads (Gold Valuation section)
+  if (window.location.hash === "#gold-sale") {
+    document.getElementById("popupForm").classList.remove("hidden");
+  }
+});
+
+function submitPopup() {
+  const name = document.getElementById("popupName").value.trim();
+  const mobile = document.getElementById("popupMobile").value.trim();
+  const amount = document.getElementById("totalAmount").innerText; // from calculator
+
+  if (!name || !mobile) {
+    alert("Please enter your name and mobile number.");
+    return;
+  }
+
+  // Save to Google Sheets
+  fetch("YOUR_GOOGLE_SCRIPT_WEB_APP_URL", {
+    method: "POST",
+    body: JSON.stringify({ name, mobile, amount }),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(data => {
+    alert("✅ Details saved. You can now use the Gold Valuation Calculator.");
+    document.getElementById("popupForm").classList.add("hidden");
+  })
+  .catch(err => {
+    console.error("Error saving to Google Sheets:", err);
+    alert("❌ Failed to save details. Please try again.");
+  });
+}
+</script>
+<!-- Popup Form -->
+<div id="popupForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details</h3>
+    <input type="text" id="popupName" placeholder="Your Name" required 
+           class="border p-3 rounded w-full mb-3">
+    <input type="tel" id="popupMobile" placeholder="Mobile Number" required 
+           class="border p-3 rounded w-full mb-3">
+    <button onclick="submitPopup()" 
+            class="w-full bg-brand-yellow text-brand-purple font-semibold py-2 rounded hover:bg-yellow-400">
+      Submit
+    </button>
+  </div>
+</div>
+
+</body>
 </html>
+
 
 
 
