@@ -577,21 +577,6 @@ fetch("https://script.google.com/macros/s/AKfycbxgOWMvRpfNyWeSz-uDwaxl9H-spwjlC9
 </div>
 </div>
         
-<!-- Popup Form -->
-<div id="popupForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details</h3>
-    <input type="text" id="popupName" placeholder="Your Name" required 
-           class="border p-3 rounded w-full mb-3">
-    <input type="tel" id="popupMobile" placeholder="Mobile Number" required 
-           class="border p-3 rounded w-full mb-3">
-    <button onclick="submitPopup()" 
-            class="w-full bg-brand-yellow text-brand-purple font-semibold py-2 rounded hover:bg-yellow-400">
-      Submit
-    </button>
-  </div>
-</div>
-
 <script>
     let slideIndex = 1;
     let slideInterval;
@@ -840,8 +825,22 @@ function submitPopup() {
 }
 </script>
 
-</body>
+<!-- Popup Form -->
+<div id="popupForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details</h3>
+    <input type="text" id="popupName" placeholder="Your Name" required 
+           class="border p-3 rounded w-full mb-3">
+    <input type="tel" id="popupMobile" placeholder="Mobile Number" required 
+           class="border p-3 rounded w-full mb-3">
+    <button onclick="submitPopup()" 
+            class="w-full bg-brand-yellow text-brand-purple font-semibold py-2 rounded hover:bg-yellow-400">
+      Submit
+    </button>
+  </div>
+</div></body>
 </html>
+
 
 
 
