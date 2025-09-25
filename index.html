@@ -783,63 +783,151 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 <script>
-// Detect when Gold Valuation section is in view
-window.addEventListener("scroll", function () {
-  const goldSection = document.getElementById("gold-valuation");
-  const popup = document.getElementById("popupForm");
-
-  if (!popup.classList.contains("shown")) { // show only once
-    const rect = goldvaluation.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-      popup.classList.remove("hidden");
-      popup.classList.add("shown");
-    }
-  }
-});
-
-function submitPopup() {
-  const name = document.getElementById("popupName").value.trim();
-  const mobile = document.getElementById("popupMobile").value.trim();
-  const amount = document.getElementById("totalAmount").innerText; // from calculator result
-
-  if (!name || !mobile) {
-    alert("⚠ Please enter your name and mobile number.");
-    return;
-  }
-
-  // Send to Google Sheets
-  fetch("https://script.google.com/macros/s/AKfycbyE79HYNqVYGfE2ZSHH7ncQ7ehHHq_QWN1U_3A2zy5u_zHKJ--2T7nwMTnTmni_gygRCA/exec", {
-    method: "POST",
-    body: JSON.stringify({ name, mobile, amount }),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(data => {
-    alert("✅ Details saved. You can now use the Gold Valuation Calculator.");
-    document.getElementById("popupForm").classList.add("hidden");
-  })
-  .catch(err => {
-    console.error("Error saving to Google Sheets:", err);
-    alert("❌ Failed to save details. Please try again.");
-  });
-}
-</script>
-
-<!-- Popup Form -->
-<div id="popupForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details</h3>
-    <input type="text" id="popupName" placeholder="Your Name" required 
-           class="border p-3 rounded w-full mb-3">
-    <input type="tel" id="popupMobile" placeholder="Mobile Number" required 
-           class="border p-3 rounded w-full mb-3">
-    <button onclick="submitPopup()" 
-            class="w-full bg-brand-yellow text-brand-purple font-semibold py-2 rounded hover:bg-yellow-400">
-      Submit
-    </button>
+<!-- ===== Popup + overlay for Gold Valuation (paste before </body>) ===== -->
+<!-- Popup -->
+<div id="popupForm" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="absolute inset-0 bg-black/60"></div>
+  <div class="relative bg-white p-6 rounded-lg shadow-xl max-w-md w-full z-60">
+    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details to Continue</h3>
+    <input type="text" id="popupName" placeholder="Your Name" required
+           class="border p-3 rounded w-full mb-3" />
+    <input type="tel" id="popupMobile" placeholder="Mobile Number" required
+           class="border p-3 rounded w-full mb-3" />
+    <div class="flex gap-3">
+      <button id="popupSubmitBtn" class="flex-1 bg-brand-yellow text-brand-purple font-semibold py-2 rounded">Submit</button>
+      <button id="popupCloseBtn" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded">Cancel</button>
+    </div>
   </div>
-</div></body>
+</div>
+
+<!-- Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const popup = document.getElementById('popupForm');
+  const submitBtn = document.getElementById('popupSubmitBtn');
+  const closeBtn = document.getElementById('popupCloseBtn');
+
+  // Try to find the gold valuation section robustly
+  let goldSection = document.getElementById('gold-valuations') 
+                 || document.getElementById('gold-sale') 
+                 || document.querySelector('[id*="gold"]');
+
+  if (!goldSection) {
+    // fallback: search sections for heading text containing 'gold sale' or 'gold valuation'
+    document.querySelectorAll('section').forEach(s => {
+      const heading = s.querySelector('h2,h3');
+      if (heading && /gold\s*(sale|valuation|valuations)/i.test(heading.textContent)) {
+        goldSection = s;
+      }
+    });
+  }
+
+  if (!goldSection) {
+    console.error('Popup setup: could not find Gold Valuation section. Make sure a <section> contains a heading with "Gold" and set id="gold-valuations" if possible.');
+    return;
+  } else {
+    console.log('Popup setup: found gold section:', goldSection);
+  }
+
+  // Ensure the gold section can hold an overlay (positioning)
+  if (getComputedStyle(goldSection).position === 'static') {
+    goldSection.style.position = 'relative';
+  }
+
+  // Create a blocking overlay inside goldSection (to prevent using calculator)
+  let overlay = document.getElementById('valuationOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'valuationOverlay';
+    overlay.className = 'absolute inset-0 bg-white/60 flex items-center justify-center z-40 hidden';
+    overlay.innerHTML = '<div class="text-center text-gray-700 p-4">Please submit your details to use the calculator</div>';
+    goldSection.appendChild(overlay);
+  }
+
+  // Only show popup once per page load
+  let shownOnce = false;
+
+  // IntersectionObserver to show popup when user scrolls to gold section
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !shownOnce) {
+        console.log('IntersectionObserver: gold section in view, showing popup.');
+        popup.classList.remove('hidden');
+        popup.classList.add('shown');   // marker
+        overlay.classList.remove('hidden'); // block calculator until submit
+        shownOnce = true;
+        // Optionally disconnect after showing
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  io.observe(goldSection);
+
+  // Submit handler: sends name/mobile/amount to Google Apps Script
+  submitBtn.addEventListener('click', function () {
+    const name = document.getElementById('popupName').value.trim();
+    const mobile = document.getElementById('popupMobile').value.trim();
+    const amountEl = document.getElementById('totalAmount');
+    const amount = amountEl ? amountEl.textContent.trim() : '';
+
+    if (!name || !mobile) {
+      alert('Please enter both name and mobile number.');
+      return;
+    }
+
+    // -- Replace this URL with your deployed Google Apps Script Web App URL --
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyNMo4PN2whK9LH4W3WEBI2wrXTZj-gXo_TvTwLjTtdvml_OetPB71_hy6o5PkDaoFMuQ/exec';
+
+    // Defensive: if placeholder not replaced, show helpful message
+    if (!scriptUrl || scriptUrl === 'https://script.google.com/macros/s/AKfycbyNMo4PN2whK9LH4W3WEBI2wrXTZj-gXo_TvTwLjTtdvml_OetPB71_hy6o5PkDaoFMuQ/exec') {
+      console.warn('Google Script URL not configured. Replace YOUR_GOOGLE_SCRIPT_WEB_APP_URL with your Web App URL.');
+      // still close popup and remove overlay so user can use calculator (optional)
+      popup.classList.add('hidden');
+      overlay.classList.add('hidden');
+      alert('(Debug) Details captured locally, but not sent because script URL is not set. Please configure the script URL.');
+      return;
+    }
+
+    // Send data
+    fetch(scriptUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, mobile, amount })
+    })
+    .then(r => r.text())
+    .then(resText => {
+      console.log('Saved to sheet:', resText);
+      popup.classList.add('hidden');
+      overlay.classList.add('hidden');
+      alert('✅ Details saved. You can now use the Gold Valuation Calculator.');
+    })
+    .catch(err => {
+      console.error('Error saving to Google Sheets:', err);
+      alert('Failed to save details. Please try again (check console).');
+    });
+  });
+
+  // Close/cancel handler: hide popup but keep overlay until they submit? 
+  // Here we allow cancel and remove overlay so they can still use calculator (change if you want to force submit)
+  closeBtn.addEventListener('click', function () {
+    popup.classList.add('hidden');
+    overlay.classList.add('hidden');
+  });
+
+  // Debug helper: press ESC to close popup
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      popup.classList.add('hidden');
+      overlay.classList.add('hidden');
+    }
+  });
+});
+</script>
+<!-- ===== End popup block ===== -->
+</body>
 </html>
+
 
 
 
