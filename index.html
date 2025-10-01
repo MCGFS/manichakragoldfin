@@ -33,7 +33,6 @@
 }
 </script>
 
-
     
 <style>
         .service-card {
@@ -143,6 +142,16 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* --- Live Gold Widget styles --- */
+        .live-widget { display:flex; align-items:center; gap:10px; }
+        .live-dot { width:10px; height:10px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px rgba(34,197,94,0.6); }
+        @keyframes liveBlink { 0%{opacity:1; transform:scale(1);}50%{opacity:0.25; transform:scale(0.85);}100%{opacity:1; transform:scale(1);} }
+        .live-dot.blink { animation: liveBlink 1.2s infinite ease-in-out; }
+        .live-dot.off { background:#94a3b8; box-shadow:none; animation:none; }
+        .live-rate-chip { display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.92); border:1px solid rgba(14,20,40,0.04); }
+        .live-rate-value { font-weight:800; color:#8c52ff; }
+
     </style>
 
         
@@ -153,20 +162,34 @@
 <header class="bg-brand-yellow shadow-lg border-b-4 border-brand-purple fixed top-0 left-0 right-0 z-50">
 <div class="container mx-auto px-4 py-4">
 <div class="flex items-center justify-between">
-<div class="flex items-center space-x-5">
-<!-- Your Logo -->
-<img class="w-12 h-12 rounded-full object-cover bg-white" src="1000090814-removebg-preview.png"/>
-<div>
-<h1 class="text-2xl font-bold text-brand-purple animate-fade-in">Mani Chakra Gold Fin</h1>
-<p class="text-brand-purple/80 text-sm animate-fade-in-delay">Trusted Gold Loan Solutions</p>
-</div>
-</div>
-<nav class="hidden md:flex space-x-6">
-<a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#home">Home</a>
-<a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#services">Services</a>
-<a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#gold-sale">Gold Valuation</a>
-<a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#contact">Contact</a>
-</nav>
+  <!-- Left: Logo + Brand -->
+  <div class="flex items-center space-x-5">
+    <img class="w-12 h-12 rounded-full object-cover bg-white" src="1000090814-removebg-preview.png"/>
+    <div>
+      <h1 class="text-2xl font-bold text-brand-purple animate-fade-in">Mani Chakra Gold Fin</h1>
+      <p class="text-brand-purple/80 text-sm animate-fade-in-delay">Trusted Gold Loan Solutions</p>
+    </div>
+  </div>
+
+  <!-- Center: LIVE gold widget -->
+  <div class="live-widget" id="liveGoldWidget" style="margin-left:12px; margin-right:12px;">
+    <div style="font-weight:800;color:#8c52ff;font-size:13px">24K</div>
+    <div id="goldRateChip" class="live-rate-chip" title="Click to refresh gold rate">
+      <div id="liveDot" class="live-dot off" aria-hidden></div>
+      <div style="display:flex;flex-direction:column;">
+        <div id="goldRate" class="live-rate-value">₹—</div>
+        <div id="goldRateMeta" style="font-size:11px;color:#6b7280">Per gram • Updated: —</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Navigation -->
+  <nav class="hidden md:flex space-x-6">
+    <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#home">Home</a>
+    <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#services">Services</a>
+    <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#gold-sale">Gold Valuation</a>
+    <a class="text-brand-purple hover:text-brand-purple/70 font-medium transition-all duration-300 hover:scale-105" href="#contact">Contact</a>
+  </nav>
 </div>
 </div>
 </header>
@@ -431,7 +454,6 @@
 </div>
 </div>
 </div>
-</div>
 </section>
 <!-- About Me Section -->
 <section id="about" class="py-16 bg-white">
@@ -534,7 +556,7 @@
     </p>
 </div>
 <!-- Visitor Counter -->
-<div style="text-align:center; padding:10px; font-size:14px; color:#8c52f0; background:#ffcc00; border-radius:8px;">
+<div style="text-align:center; padding:10px; font-size:14px; color:#8c52f0; background:#ffcc00; border-radius:8px; margin-top:12px;">
     👁️ Visitors: <span id="visitor-count">Loading...</span>
 </div>
 
@@ -772,184 +794,63 @@ We provide Gold Loan Renewal Services where:</p>
 
 
 
-        
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968276b1954b741b',t:'MTc1NDAyMTE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<!-- Live Gold Widget Script -->
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Show popup automatically when page loads (Gold Valuation section)
-  if (window.location.hash === "#gold-sale") {
-    document.getElementById("popupForm").classList.remove("hidden");
+(function(){
+  // CONFIG: replace with your Apps Script exec URL (returns JSON like {"24K":7200})
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycby6gIJZcGUGc5lzgDJiG5K6XCljHD3aJEYaiYP9_YalNlsZJnO42sCX1mvVa2Gk8kg/exec'; // <- REPLACE
+  const POLL_MS = 60000; // 60s
+
+  const goldRateEl = document.getElementById('goldRate');
+  const goldMetaEl = document.getElementById('goldRateMeta');
+  const liveDot = document.getElementById('liveDot');
+  const chip = document.getElementById('goldRateChip');
+
+  function extract24k(json){
+    if(!json) return null;
+    const keys = ['24k','24K','gold24','gold_24k','rate','value','price','gold'];
+    for(const k of keys){ if(k in json){ const v=json[k]; if(typeof v==='number') return v; const p=parseFloat(String(v).replace(/[^0-9.]/g,'')); if(!Number.isNaN(p)) return p; } }
+    for(const p in json){ if(/24\s*k/i.test(p)){ const parsed=parseFloat(String(json[p]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; } }
+    if(Array.isArray(json)){ for(const row of json){ if(Array.isArray(row) && row.length>=2 && /24\s*k/i.test(String(row[0]))){ const parsed=parseFloat(String(row[1]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; } } }
+    for(const p in json){ const parsed=parseFloat(String(json[p]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; }
+    return null;
   }
-});
 
-<script>
-<!-- ===== Popup + overlay for Gold Valuation (paste before </body>) ===== -->
-<!-- Popup -->
-<div id="popupForm" class="fixed inset-0 z-50 hidden items-center justify-center">
-  <div class="absolute inset-0 bg-black/60"></div>
-  <div class="relative bg-white p-6 rounded-lg shadow-xl max-w-md w-full z-60">
-    <h3 class="text-xl font-semibold mb-4 text-brand-purple">Enter Your Details to Continue</h3>
-    <input type="text" id="popupName" placeholder="Your Name" required
-           class="border p-3 rounded w-full mb-3" />
-    <input type="tel" id="popupMobile" placeholder="Mobile Number" required
-           class="border p-3 rounded w-full mb-3" />
-    <div class="flex gap-3">
-      <button id="popupSubmitBtn" class="flex-1 bg-brand-yellow text-brand-purple font-semibold py-2 rounded">Submit</button>
-      <button id="popupCloseBtn" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded">Cancel</button>
-    </div>
-  </div>
-</div>
+  function formatINR(n){ return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 }); }
 
-<!-- Script -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const popup = document.getElementById('popupForm');
-  const submitBtn = document.getElementById('popupSubmitBtn');
-  const closeBtn = document.getElementById('popupCloseBtn');
-
-  // Try to find the gold valuation section robustly
-  let goldSection = document.getElementById('gold-valuations') 
-                 || document.getElementById('gold-sale') 
-                 || document.querySelector('[id*="gold"]');
-
-  if (!goldSection) {
-    // fallback: search sections for heading text containing 'gold sale' or 'gold valuation'
-    document.querySelectorAll('section').forEach(s => {
-      const heading = s.querySelector('h2,h3');
-      if (heading && /gold\s*(sale|valuation|valuations)/i.test(heading.textContent)) {
-        goldSection = s;
+  async function fetchAndUpdate(){
+    try{
+      if(!SHEET_URL || SHEET_URL.includes('1J9sxgTGZmhI6CHiX84nx-9XSfMFY4bkq0sGIgfBpIlQ')){
+        console.warn('Please set SHEET_URL to your Apps Script exec URL.');
+        liveDot.classList.remove('blink'); liveDot.classList.add('off');
+        goldRateEl.textContent = '₹—'; goldMetaEl.textContent = 'Per gram • Updated: —';
+        return;
       }
-    });
-  }
+      const resp = await fetch(SHEET_URL, { cache: 'no-store' });
+      if(!resp.ok) throw new Error('HTTP '+resp.status);
+      const data = await resp.json();
+      const rate = extract24k(data);
+      if(rate===null) throw new Error('24K not found in JSON');
 
-  if (!goldSection) {
-    console.error('Popup setup: could not find Gold Valuation section. Make sure a <section> contains a heading with "Gold" and set id="gold-valuations" if possible.');
-    return;
-  } else {
-    console.log('Popup setup: found gold section:', goldSection);
-  }
-
-  // Ensure the gold section can hold an overlay (positioning)
-  if (getComputedStyle(goldSection).position === 'static') {
-    goldSection.style.position = 'relative';
-  }
-
-  // Create a blocking overlay inside goldSection (to prevent using calculator)
-  let overlay = document.getElementById('valuationOverlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'valuationOverlay';
-    overlay.className = 'absolute inset-0 bg-white/60 flex items-center justify-center z-40 hidden';
-    overlay.innerHTML = '<div class="text-center text-gray-700 p-4">Please submit your details to use the calculator</div>';
-    goldSection.appendChild(overlay);
-  }
-
-  // Only show popup once per page load
-  let shownOnce = false;
-
-  // IntersectionObserver to show popup when user scrolls to gold section
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !shownOnce) {
-        console.log('IntersectionObserver: gold section in view, showing popup.');
-        popup.classList.remove('hidden');
-        popup.classList.add('shown');   // marker
-        overlay.classList.remove('hidden'); // block calculator until submit
-        shownOnce = true;
-        // Optionally disconnect after showing
-        io.disconnect();
-      }
-    });
-  }, { threshold: 0.25 });
-
-  io.observe(goldSection);
-
-  // Submit handler: sends name/mobile/amount to Google Apps Script
-  submitBtn.addEventListener('click', function () {
-    const name = document.getElementById('popupName').value.trim();
-    const mobile = document.getElementById('popupMobile').value.trim();
-    const amountEl = document.getElementById('totalAmount');
-    const amount = amountEl ? amountEl.textContent.trim() : '';
-
-    if (!name || !mobile) {
-      alert('Please enter both name and mobile number.');
-      return;
+      // update UI
+      goldRateEl.textContent = formatINR(rate);
+      const now=new Date(); const hh=String(now.getHours()).padStart(2,'0'); const mm=String(now.getMinutes()).padStart(2,'0'); const ss=String(now.getSeconds()).padStart(2,'0');
+      goldMetaEl.textContent = `Per gram • Updated: ${hh}:${mm}:${ss}`;
+      liveDot.classList.remove('off'); liveDot.classList.add('blink');
+    }catch(err){
+      console.error('Gold widget fetch error',err);
+      liveDot.classList.remove('blink'); liveDot.classList.add('off');
+      goldRateEl.textContent = '⚠️'; goldMetaEl.textContent = 'Per gram • Updated: —';
     }
+  }
 
-    // -- Replace this URL with your deployed Google Apps Script Web App URL --
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyNMo4PN2whK9LH4W3WEBI2wrXTZj-gXo_TvTwLjTtdvml_OetPB71_hy6o5PkDaoFMuQ/exec';
-
-    // Defensive: if placeholder not replaced, show helpful message
-    if (!scriptUrl || scriptUrl === 'https://script.google.com/macros/s/AKfycbyNMo4PN2whK9LH4W3WEBI2wrXTZj-gXo_TvTwLjTtdvml_OetPB71_hy6o5PkDaoFMuQ/exec') {
-      console.warn('Google Script URL not configured. Replace YOUR_GOOGLE_SCRIPT_WEB_APP_URL with your Web App URL.');
-      // still close popup and remove overlay so user can use calculator (optional)
-      popup.classList.add('hidden');
-      overlay.classList.add('hidden');
-      alert('(Debug) Details captured locally, but not sent because script URL is not set. Please configure the script URL.');
-      return;
-    }
-
-    // Send data
-    fetch(scriptUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, mobile, amount })
-    })
-    .then(r => r.text())
-    .then(resText => {
-      console.log('Saved to sheet:', resText);
-      popup.classList.add('hidden');
-      overlay.classList.add('hidden');
-      alert('✅ Details saved. You can now use the Gold Valuation Calculator.');
-    })
-    .catch(err => {
-      console.error('Error saving to Google Sheets:', err);
-      alert('Failed to save details. Please try again (check console).');
-    });
+  document.addEventListener('DOMContentLoaded', function(){
+    fetchAndUpdate();
+    setInterval(fetchAndUpdate, POLL_MS);
+    if(chip) chip.addEventListener('click', fetchAndUpdate);
   });
-
-  // Close/cancel handler: hide popup but keep overlay until they submit? 
-  // Here we allow cancel and remove overlay so they can still use calculator (change if you want to force submit)
-  closeBtn.addEventListener('click', function () {
-    popup.classList.add('hidden');
-    overlay.classList.add('hidden');
-  });
-
-  // Debug helper: press ESC to close popup
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      popup.classList.add('hidden');
-      overlay.classList.add('hidden');
-    }
-  });
-});
+})();
 </script>
-<!-- ===== End popup block ===== -->
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
