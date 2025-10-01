@@ -172,16 +172,24 @@
   </div>
 
   <!-- Center: LIVE gold widget -->
-  <div class="live-widget" id="liveGoldWidget" style="margin-left:12px; margin-right:12px;">
-    <div style="font-weight:800;color:#8c52ff;font-size:13px">24K</div>
-    <div id="goldRateChip" class="live-rate-chip" title="Click to refresh gold rate">
-      <div id="liveDot" class="live-dot off" aria-hidden></div>
-      <div style="display:flex;flex-direction:column;">
-        <div id="goldRate" class="live-rate-value">₹—</div>
-        <div id="goldRateMeta" style="font-size:11px;color:#6b7280">Per gram • Updated: —</div>
-      </div>
-    </div>
-  </div>
+  
+  <span style="color: white; font-weight: bold; font-size: 20px; display: inline-flex; align-items: center;">
+  24K Gold Rate Today: <span id="goldRate" style="color: white; margin-left: 2px;">Loading...</span>₹
+  <span class="blink-dot" style="width: 10px; height: 10px; background: red; border-radius: 50%; display: inline-block; margin-left: 5px;"></span>
+</span>
+
+<style>
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+  .blink-dot {
+    animation: blink 1s infinite;
+  }
+</style>
+
+  
+  
 
   <!-- Right: Navigation -->
   <nav class="hidden md:flex space-x-6">
@@ -796,62 +804,28 @@ We provide Gold Loan Renewal Services where:</p>
 
 <!-- Live Gold Widget Script -->
 <script>
-(function(){
-  // CONFIG: replace with your Apps Script exec URL (returns JSON like {"24K":7200})
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycby6gIJZcGUGc5lzgDJiG5K6XCljHD3aJEYaiYP9_YalNlsZJnO42sCX1mvVa2Gk8kg/exec'; // <- REPLACE
-  const POLL_MS = 60000; // 60s
-
-  const goldRateEl = document.getElementById('goldRate');
-  const goldMetaEl = document.getElementById('goldRateMeta');
-  const liveDot = document.getElementById('liveDot');
-  const chip = document.getElementById('goldRateChip');
-
-  function extract24k(json){
-    if(!json) return null;
-    const keys = ['24k','24K','gold24','gold_24k','rate','value','price','gold'];
-    for(const k of keys){ if(k in json){ const v=json[k]; if(typeof v==='number') return v; const p=parseFloat(String(v).replace(/[^0-9.]/g,'')); if(!Number.isNaN(p)) return p; } }
-    for(const p in json){ if(/24\s*k/i.test(p)){ const parsed=parseFloat(String(json[p]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; } }
-    if(Array.isArray(json)){ for(const row of json){ if(Array.isArray(row) && row.length>=2 && /24\s*k/i.test(String(row[0]))){ const parsed=parseFloat(String(row[1]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; } } }
-    for(const p in json){ const parsed=parseFloat(String(json[p]).replace(/[^0-9.]/g,'')); if(!Number.isNaN(parsed)) return parsed; }
-    return null;
-  }
-
-  function formatINR(n){ return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 }); }
-
-  async function fetchAndUpdate(){
-    try{
-      if(!SHEET_URL || SHEET_URL.includes('https://script.google.com/macros/s/AKfycby6gIJZcGUGc5lzgDJiG5K6XCljHD3aJEYaiYP9_YalNlsZJnO42sCX1mvVa2Gk8kg/exec')){
-        console.warn('Please set SHEET_URL to your Apps Script exec URL.');
-        liveDot.classList.remove('blink'); liveDot.classList.add('off');
-        goldRateEl.textContent = '₹—'; goldMetaEl.textContent = 'Per gram • Updated: —';
-        return;
-      }
-      const resp = await fetch(SHEET_URL, { cache: 'no-store' });
-      if(!resp.ok) throw new Error('HTTP '+resp.status);
-      const data = await resp.json();
-      const rate = extract24k(data);
-      if(rate===null) throw new Error('24K not found in JSON');
-
-      // update UI
-      goldRateEl.textContent = formatINR(rate);
-      const now=new Date(); const hh=String(now.getHours()).padStart(2,'0'); const mm=String(now.getMinutes()).padStart(2,'0'); const ss=String(now.getSeconds()).padStart(2,'0');
-      goldMetaEl.textContent = `Per gram • Updated: ${hh}:${mm}:${ss}`;
-      liveDot.classList.remove('off'); liveDot.classList.add('blink');
-    }catch(err){
-      console.error('Gold widget fetch error',err);
-      liveDot.classList.remove('blink'); liveDot.classList.add('off');
-      goldRateEl.textContent = '⚠️'; goldMetaEl.textContent = 'Per gram • Updated: —';
+  async function fetchGoldRate() {
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbzUJ6hbownPhY31ky2PsqBg2IrpNM1x22x1TwC5I5py6biUw3Gj03d1PzLtEjcZ-MR_qA/exec");
+      const data = await response.json();
+      document.getElementById("goldRate").textContent = data.rate;
+    } catch (err) {
+      document.getElementById("goldRate").textContent = "Error fetching rate";
+      console.error(err);
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    fetchAndUpdate();
-    setInterval(fetchAndUpdate, POLL_MS);
-    if(chip) chip.addEventListener('click', fetchAndUpdate);
-  });
-})();
+  // Fetch rate on page load
+  fetchGoldRate();
+
+  // Optional: update rate every 5 minutes
+  setInterval(fetchGoldRate, 5 * 60 * 1000);
 </script>
 
-</body>
-</html>
 
+
+</body>
+
+
+
+</html>
