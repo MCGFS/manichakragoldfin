@@ -173,19 +173,105 @@
 
   <!-- Center: LIVE gold widget -->
   
- <span style="color: white; font-weight: bold; display: inline-flex; align-items: center; font-size: clamp(14px, 2vw, 24px);">
-  24K Gold Rate Today: <span id="goldRate" style="color: white; margin-left: 4px;">Loading...</span> ₹
-  <span class="blink-dot" style="width: 10px; height: 10px; background: red; border-radius: 50%; display: inline-block; margin-left: 5px;"></span>
+<!-- Responsive gold-rate widget -->
+<span class="rate-container" role="status" aria-live="polite" aria-atomic="true">
+  <span class="rate-label">24K Gold Rate Today:</span>
+
+  <!-- Rate value + currency grouped so they stay together -->
+  <span class="rate-value-wrap">
+    <span id="goldRate" class="rate-value">Loading...</span>
+    <span class="currency">₹</span>
+  </span>
+
+  <span id="rateDate" class="rate-date">...</span>
+
+  <span class="blink-dot" aria-hidden="true"></span>
 </span>
 
 <style>
+  /* container: allow wrapping and small gaps */
+  .rate-container{
+    display: inline-flex;
+    flex-wrap: wrap;           /* allow items to wrap on narrow screens */
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* keep it visually inline but flexible */
+  }
+
+  /* Label (can break to next line on tiny screens) */
+  .rate-label{
+    color: #ffffff;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 20px); /* compress on mobile, larger on desktop */
+    line-height: 1;
+    flex: 0 1 auto;
+    min-width: 0; /* allows shrinking in flex */
+    white-space: nowrap;
+  }
+
+  /* Group holding the numeric value and currency */
+  .rate-value-wrap{
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    flex: 0 1 auto;
+    min-width: 0; /* critical so the number can shrink on small screens */
+  }
+
+  /* Number itself (allow it to shrink/grow) */
+  .rate-value{
+    color: #ffffff;
+    font-weight: 800;
+    font-size: clamp(14px, 3vw, 28px); /* more emphasis on desktop */
+    line-height: 1;
+    flex: 0 1 auto;
+    min-width: 2ch; /* keep at least some width while loading */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .currency{
+    color: #ffffff;
+    font-weight: 800;
+    font-size: clamp(14px, 2.2vw, 22px);
+    line-height: 1;
+  }
+
+  /* Date (secondary info) */
+  .rate-date{
+    color: #ffcccc;
+    font-size: clamp(10px, 1.6vw, 16px);
+    flex: 0 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  /* Blinking dot sized responsively */
   @keyframes blink {
     0%, 50%, 100% { opacity: 1; }
     25%, 75% { opacity: 0; }
   }
-  .blink-dot {
+  .blink-dot{
+    width: clamp(6px, 1.2vw, 10px);
+    height: clamp(6px, 1.2vw, 10px);
+    background: red;
+    border-radius: 50%;
+    display: inline-block;
     animation: blink 1s infinite;
+    margin-left: 4px;
+    flex: 0 0 auto;
   }
+
+  /* Optional: if you want the label to drop above the value on very small screens,
+     uncomment the rule below (makes label take full line) */
+  /*
+  @media (max-width: 360px) {
+    .rate-label { flex-basis: 100%; }
+  }
+  */
 </style>
 
 
@@ -830,5 +916,6 @@ We provide Gold Loan Renewal Services where:</p>
 
 
 </html>
+
 
 
