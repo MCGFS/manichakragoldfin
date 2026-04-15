@@ -1,277 +1,418 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEW LTV CALCULATOR</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #1a0033, #8C52FF);
-    color: #fff;
-    margin: 0;
-}
-
-/* 🔥 HEADER BAR */
-.header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: linear-gradient(45deg, #8C52FF, #FFD700);
-    padding: 12px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: black;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-}
-
-/* Container */
-.container {
-    width: 420px;
-    margin: 80px auto 20px; /* push below header */
-    padding: 25px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 30px rgba(255,215,0,0.5);
-}
-<div id="adminPanel" style="display:none; padding:20px;">
-
-<h3>📊 Customer Records</h3>
-
-<input type="text" id="search" placeholder="Search Name or Mobile" onkeyup="loadData()">
-
-<table border="1" width="100%" style="margin-top:10px; background:#fff; color:#000;">
-<thead>
-<tr>
-<th>Name</th>
-<th>Mobile</th>
-<th>City</th>
-<th>Loan</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="tableData"></tbody>
-</table>
-
-<button onclick="exportData()">📥 Export Data</button>
-
-</div>
-    
-/* Titles */
-.top-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #FFD700;
-}
-.brand {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-/* Inputs */
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border-radius: 10px;
-    border: none;
-}
-
-/* Button */
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: none;
-    font-weight: bold;
-    background: #FFD700;
-    color: #000;
-    cursor: pointer;
-}
-
-/* Result */
-.result {
-    background: rgba(0,0,0,0.3);
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-.highlight {
-    color: #FFD700;
-}
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gold Valuation Calculator</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+  * { box-sizing: border-box; }
+  .gold-shimmer {
+    background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 30%, #fef3c7 50%, #fcd34d 70%, #fef3c7 100%);
+  }
+  .gold-border {
+    border: 2px solid #a855f7;
+  }
+  .value-banner {
+    background: linear-gradient(135deg, #a855f7, #c084fc, #a855f7);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+  .input-gold:focus { border-color: #d97706; box-shadow: 0 0 0 2px rgba(217,119,6,0.3); }
+  .toast-msg {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    padding: 12px 24px; border-radius: 12px; z-index: 999;
+    animation: fadeIn 0.3s ease-out;
+  }
 </style>
-</head>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full gold-shimmer overflow-auto" style="font-family: 'DM Sans', sans-serif;">
+   <!-- Header -->
+   <header class="text-center py-6 px-4" style="animation-delay: 0.1s;">
+    <div class="flex items-center justify-center gap-3 mb-1">
+     <span class="text-3xl">✦</span>
+     <h1 id="appTitle" class="text-2xl md:text-3xl font-bold" style="font-family: 'Playfair Display', serif; color: #7c3aed;">Gold Valuation Calculator</h1><span class="text-3xl">✦</span>
+    </div>
+    <p id="shopName" class="text-sm tracking-widest uppercase" style="color: #a855f7;">Your Jewellery Shop</p>
+   </header>
+   <main class="max-w-xl mx-auto px-4 pb-8 space-y-4">
+    <!-- Tabs -->
+    <div class="flex rounded-xl overflow-hidden gold-border">
+     <button id="tabCalc" onclick="switchTab('calc')" class="flex-1 py-3 text-sm font-semibold transition-all" style="background: #a855f7; color: #fff;"> <i data-lucide="calculator" style="width:16px;height:16px;display:inline;vertical-align:-3px;"></i> Calculator </button> <button id="tabRecords" onclick="switchTab('records')" class="flex-1 py-3 text-sm font-semibold transition-all" style="background: transparent; color: #a855f7;"> <i data-lucide="list" style="width:16px;height:16px;display:inline;vertical-align:-3px;"></i> Records </button>
+    </div><!-- Calculator Tab -->
+    <div id="calcSection" class="space-y-4 fade-in">
+     <!-- Customer Info -->
+     <div class="rounded-xl p-4 space-y-3" style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);">
+      <h2 class="text-xs font-bold uppercase tracking-wider" style="color: #a855f7;">Customer Details</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Name *</label> <input id="custName" type="text" placeholder="Customer name" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Mobile *</label> <input id="custMobile" type="tel" placeholder="Mobile number" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">City</label> <input id="custCity" type="text" placeholder="City" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+      </div>
+     </div><!-- Weight Calculation -->
+     <div class="rounded-xl p-4 space-y-3" style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);">
+      <h2 class="text-xs font-bold uppercase tracking-wider" style="color: #a855f7;">Weight Calculation (grams)</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Gross Weight</label> <input id="grossWt" type="number" step="0.001" min="0" placeholder="0.000" oninput="calculate()" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Stone Weight</label> <input id="stoneWt" type="number" step="0.001" min="0" placeholder="0.000" oninput="calculate()" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Deduction (5%)</label> <input id="deduction" type="number" step="0.001" min="0" placeholder="0.000" oninput="calculate()" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+      </div>
+      <div class="flex items-center justify-between pt-2 px-1" style="border-top: 1px dashed rgba(168,85,247,0.3);">
+       <span class="text-xs font-semibold" style="color: #a855f7;">Net Weight</span> <span id="netWtDisplay" class="text-lg font-bold" style="color: #7c3aed;">0.000 g</span>
+      </div>
+     </div><!-- Rate & Purity -->
+     <div class="rounded-xl p-4 space-y-3" style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);">
+      <h2 class="text-xs font-bold uppercase tracking-wider" style="color: #a855f7;">Rate &amp; Purity</h2>
+      <div class="grid grid-cols-2 gap-3">
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Rate / Gram (₹)</label> <input id="rateGram" type="number" step="0.01" min="0" placeholder="0.00" oninput="calculate()" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;">
+       </div>
+       <div>
+        <label class="block text-xs mb-1" style="color: #a855f7;">Purity</label> <select id="purity" onchange="calculate()" class="w-full px-3 py-2 rounded-lg text-sm input-gold outline-none" style="background: #fef3c7; border: 1px solid rgba(168,85,247,0.3); color: #7c3aed;"> <option value="91.67">22K (91.67%)</option> <option value="75">18K (75%)</option> <option value="58.33">14K (58.33%)</option> <option value="41.67">10K (41.67%)</option> <option value="100">Pure Gold (100%)</option> <option value="">Custom %</option> </select>
+       </div>
+      </div>
+     </div><!-- Value Banner -->
+     <div class="value-banner rounded-2xl p-6 text-center" style="background-size: 200% 200%;">
+      <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: #fff;">Total Gold Value</p>
+      <p id="totalValue" class="text-4xl md:text-5xl font-extrabold" style="font-family: 'Playfair Display', serif; color: #fff;">₹ 0.00</p>
+     </div><!-- Save Button --> <button id="saveBtn" onclick="saveRecord()" class="w-full py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all" style="background: #c9a84c; color: #1a1207;"> <i data-lucide="save" style="width:16px;height:16px;display:inline;vertical-align:-3px;"></i> Save Record </button>
+     <div id="formMsg" class="text-center text-xs" style="color: #c9a84c; display:none;"></div>
+    </div><!-- Records Tab -->
+    <div id="recordsSection" class="space-y-3 fade-in" style="display:none;">
+     <div id="recordCount" class="text-xs text-right" style="color: #a855f7;">
+      0 records
+     </div>
+     <div id="recordsList" class="space-y-3"></div>
+     <div id="emptyState" class="text-center py-12" style="color: #a855f7;">
+      <i data-lucide="inbox" style="width:48px;height:48px;margin:0 auto 12px;display:block;opacity:0.4;"></i>
+      <p class="text-sm">No records yet. Save a valuation to see it here.</p>
+     </div>
+    </div>
+   </main>
+  </div><!-- Toast -->
+  <div id="toast" class="toast-msg" style="display:none; background: #a855f7; color: #fff; font-weight: 600; font-size: 14px;"></div>
+  <script>
+  // State
+  let allRecords = [];
+  let currentTab = 'calc';
+  let deleteConfirmId = null;
 
-<body>
+  const defaultConfig = {
+    app_title: 'Gold Valuation Calculator',
+    shop_name: 'Your Jewellery Shop',
+    background_color: '#1a1207',
+    surface_color: '#2d1f0e',
+    text_color: '#f0d78c',
+    accent_color: '#c9a84c',
+    muted_color: '#a08840',
+    font_family: 'Playfair Display',
+    font_size: 16
+  };
 
-<!-- 🔥 HEADER -->
-<div class="header">NEW LTV CALCULATOR</div>
-
-<div class="container">
-
-<div class="brand">Mani Chakra Gold Fin Services</div>
-
-<input type="text" id="name" placeholder="Customer Name *">
-<input type="text" id="mobile" placeholder="Mobile Number *">
-<input type="text" id="city" placeholder="City *">
-
-<input type="number" id="grossWeight" placeholder="Gross Weight (g)">
-<input type="number" id="wastage" value="10">
-<input type="number" id="stone" placeholder="Stone Weight (g)">
-<input type="number" id="rate" placeholder="Gold Rate (₹)">
-
-<button onclick="calculate()">Calculate</button>
-
-<div class="result">
-<p>Net Weight: <span id="netWeight">0</span></p>
-<p>Total Value: ₹ <span id="value">0</span></p>
-<p>LTV: <span id="ltv">0%</span></p>
-<p>Loan: ₹ <span id="loan">0</span></p>
-</div>
-
-<button onclick="saveData()">💾 Save</button>
-<button onclick="downloadPDF()">📄 Download PDF</button>
-<button onclick="toggleAdmin()">📊 Admin Panel</button>
-</div>
-
-<script>
-let lastData = {};
-
-/* Auto Load Rate */
-window.onload = function() {
-    let savedRate = localStorage.getItem("goldRate");
-    if (savedRate) rate.value = savedRate;
-};
-
-function validate() {
-    let name = nameInput.value = document.getElementById("name").value.trim();
-    let mobile = document.getElementById("mobile").value.trim();
-    let city = document.getElementById("city").value.trim();
-
-    if (!name || !mobile || !city) {
-        alert("Fill all required fields!");
-        return false;
-    }
-    if (!/^[0-9]{10}$/.test(mobile)) {
-        alert("Enter valid mobile number!");
-        return false;
-    }
-    return true;
-}
-
-function calculate() {
-    if (!validate()) return;
-
-    let name = document.getElementById("name").value;
-    let mobile = document.getElementById("mobile").value;
-    let city = document.getElementById("city").value;
-
-    let gross = parseFloat(grossWeight.value)||0;
-    let wastage = parseFloat(wastage.value)||0;
-    let stone = parseFloat(stone.value)||0;
-    let rateVal = parseFloat(rate.value)||0;
-
-    localStorage.setItem("goldRate", rateVal);
-
-    let net = gross - (gross*wastage/100) - stone;
-    if(net<0) net=0;
-
-    let value = net * rateVal;
-
-    let ltv = value<=250000 ? 85 : value<=500000 ? 80 : 75;
-    let loan = value * ltv / 100;
-
-    netWeight.innerText = net.toFixed(2);
-    value.innerText = value.toFixed(0);
-    ltv.innerText = ltv+"%";
-    loan.innerText = loan.toFixed(0);
-
-    lastData = {name,mobile,city,net,value,ltv,loan};
-}
-
-function saveData() {
-    if (!validate()) return;
-
-    let records = JSON.parse(localStorage.getItem("goldLoans")||"[]");
-    records.push(lastData);
-    localStorage.setItem("goldLoans", JSON.stringify(records));
-
-    alert("Saved!");
-}
-
-function downloadPDF() {
-    if (!validate()) return;
-
-    const { jsPDF } = window.jspdf;
-    let doc = new jsPDF();
-
-    doc.text("Mani Chakra Gold Fin Services", 20, 20);
-    doc.text("NEW LTV Calculator", 20, 30);
-
-    doc.text("Name: " + lastData.name, 20, 50);
-    doc.text("Mobile: " + lastData.mobile, 20, 60);
-    doc.text("City: " + lastData.city, 20, 70);
-    doc.text("Loan: ₹ " + lastData.loan, 20, 90);
-
-    doc.save("GoldLoan.pdf");
-}
+  // Calculate net weight and total value
+  function calculate() {
+    const gross = parseFloat(document.getElementById('grossWt').value) || 0;
+    const stone = parseFloat(document.getElementById('stoneWt').value) || 0;
+    const autoDeduction = gross * 0.05;
+    const customDed = parseFloat(document.getElementById('deduction').value) || autoDeduction;
+    const final_ded = customDed > 0 ? customDed : autoDeduction;
     
- function toggleAdmin() {
-    let panel = document.getElementById("adminPanel");
-    panel.style.display = panel.style.display === "none" ? "block" : "none";
-    loadData();
-}
+    const rate = parseFloat(document.getElementById('rateGram').value) || 0;
+    let purity = parseFloat(document.getElementById('purity').value) || 100;
+    
+    // If purity is empty (custom), show input prompt
+    if (document.getElementById('purity').value === '') {
+      const customPurity = prompt('Enter custom purity percentage (0-100):');
+      if (customPurity !== null) {
+        purity = Math.min(100, Math.max(0, parseFloat(customPurity) || 100));
+        // Update select to show custom value temporarily
+        document.getElementById('purity').dataset.customValue = purity;
+      } else {
+        purity = 100;
+      }
+    }
 
-function loadData() {
-    let records = JSON.parse(localStorage.getItem("goldLoans")||"[]");
-    let search = document.getElementById("search").value.toLowerCase();
+    const net = Math.max(0, gross - stone - final_ded);
+    const total = net * rate * (purity / 100);
 
-    let html = "";
+    document.getElementById('netWtDisplay').textContent = net.toFixed(3) + ' g';
+    document.getElementById('totalValue').textContent = '₹ ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    // Update deduction field if empty
+    if (!document.getElementById('deduction').value) {
+      document.getElementById('deduction').value = autoDeduction.toFixed(3);
+    }
+  }
 
-    records.forEach((r, index) => {
-        if (
-            r.name.toLowerCase().includes(search) ||
-            r.mobile.includes(search)
-        ) {
-            html += `
-            <tr>
-            <td>${r.name}</td>
-            <td>${r.mobile}</td>
-            <td>${r.city}</td>
-            <td>₹ ${r.loan}</td>
-            <td><button onclick="deleteRecord(${index})">❌</button></td>
-            </tr>`;
-        }
+  // Tab switching
+  function switchTab(tab) {
+    currentTab = tab;
+    const calcBtn = document.getElementById('tabCalc');
+    const recBtn = document.getElementById('tabRecords');
+    const calcSec = document.getElementById('calcSection');
+    const recSec = document.getElementById('recordsSection');
+
+    if (tab === 'calc') {
+      calcBtn.style.background = '#a855f7'; calcBtn.style.color = '#fff';
+      recBtn.style.background = 'transparent'; recBtn.style.color = '#a855f7';
+      calcSec.style.display = ''; recSec.style.display = 'none';
+    } else {
+      recBtn.style.background = '#a855f7'; recBtn.style.color = '#fff';
+      calcBtn.style.background = 'transparent'; calcBtn.style.color = '#a855f7';
+      recSec.style.display = ''; calcSec.style.display = 'none';
+    }
+  }
+
+  // Show toast
+  function showToast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = isError ? '#b91c1c' : '#d97706';
+    t.style.color = '#fff';
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2500);
+  }
+
+  // Save record
+  async function saveRecord() {
+    const name = document.getElementById('custName').value.trim();
+    const mobile = document.getElementById('custMobile').value.trim();
+    if (!name || !mobile) {
+      showToast('Please enter customer name and mobile', true);
+      return;
+    }
+    if (allRecords.length >= 999) {
+      showToast('Maximum 999 records reached. Delete some first.', true);
+      return;
+    }
+
+    const gross = parseFloat(document.getElementById('grossWt').value) || 0;
+    const ded = parseFloat(document.getElementById('deduction').value) || (gross * 0.05);
+    const stone = parseFloat(document.getElementById('stoneWt').value) || 0;
+    const rate = parseFloat(document.getElementById('rateGram').value) || 0;
+    const purity = parseFloat(document.getElementById('purity').value) || 100;
+    const net = Math.max(0, gross - ded - stone);
+    const total = net * rate * (purity / 100);
+
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    const result = await window.dataSdk.create({
+      customer_name: name,
+      mobile: mobile,
+      city: document.getElementById('custCity').value.trim(),
+      gross_weight: gross,
+      deduction: ded,
+      waste: waste,
+      stone_weight: stone,
+      net_weight: parseFloat(net.toFixed(3)),
+      rate_per_gram: rate,
+      purity: purity,
+      total_value: parseFloat(total.toFixed(2)),
+      created_at: new Date().toISOString()
     });
 
-    document.getElementById("tableData").innerHTML = html;
-}
+    btn.disabled = false; btn.innerHTML = '<i data-lucide="save" style="width:16px;height:16px;display:inline;vertical-align:-3px;"></i> Save Record';
+    lucide.createIcons();
 
-function deleteRecord(index) {
-    let records = JSON.parse(localStorage.getItem("goldLoans")||"[]");
-    records.splice(index,1);
-    localStorage.setItem("goldLoans", JSON.stringify(records));
-    loadData();
-}
+    if (result.isOk) {
+      showToast('Record saved successfully!', false);
+      // Clear form
+      ['custName','custMobile','custCity','grossWt','deduction','waste','stoneWt','rateGram','purity'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('netWtDisplay').textContent = '0.000 g';
+      document.getElementById('totalValue').textContent = '₹ 0.00';
+    } else {
+      showToast('Failed to save. Try again.', true);
+    }
+  }
 
-function exportData() {
-    let data = localStorage.getItem("goldLoans");
-    let blob = new Blob([data], {type: "application/json"});
-    let a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "goldLoanData.json";
-    a.click();
-}   
-    
+  // Delete record
+  async function deleteRecord(backendId) {
+    const rec = allRecords.find(r => r.__backendId === backendId);
+    if (!rec) return;
+
+    if (deleteConfirmId !== backendId) {
+      deleteConfirmId = backendId;
+      renderRecords(allRecords);
+      return;
+    }
+
+    const btn = document.querySelector(`[data-del="${backendId}"]`);
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+    const result = await window.dataSdk.delete(rec);
+    deleteConfirmId = null;
+    if (result.isOk) {
+      showToast('Record deleted', false);
+    } else {
+      showToast('Delete failed', true);
+    }
+  }
+
+  function cancelDelete() {
+    deleteConfirmId = null;
+    renderRecords(allRecords);
+  }
+
+  // Render records list
+  function renderRecords(data) {
+    const list = document.getElementById('recordsList');
+    const empty = document.getElementById('emptyState');
+    const countEl = document.getElementById('recordCount');
+    countEl.textContent = data.length + ' record' + (data.length !== 1 ? 's' : '');
+
+    if (data.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    // Sort newest first
+    const sorted = [...data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const existingEls = new Map([...list.children].map(el => [el.dataset.id, el]));
+    const fragment = document.createDocumentFragment();
+
+    sorted.forEach(rec => {
+      let el = existingEls.get(rec.__backendId);
+      if (el) {
+        updateRecordEl(el, rec);
+        existingEls.delete(rec.__backendId);
+      } else {
+        el = createRecordEl(rec);
+      }
+      fragment.appendChild(el);
+    });
+
+    existingEls.forEach(el => el.remove());
+    list.innerHTML = '';
+    list.appendChild(fragment);
+  }
+
+  function createRecordEl(rec) {
+    const div = document.createElement('div');
+    div.dataset.id = rec.__backendId;
+    div.className = 'rounded-xl p-4 fade-in';
+    div.style.cssText = 'background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2);';
+    updateRecordEl(div, rec);
+    return div;
+  }
+
+  function updateRecordEl(el, rec) {
+    const isConfirming = deleteConfirmId === rec.__backendId;
+    const dt = new Date(rec.created_at);
+    const dateStr = dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    const totalStr = '₹ ' + (rec.total_value || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    el.innerHTML = `
+      <div class="flex items-start justify-between mb-2">
+        <div>
+          <p class="font-bold text-sm" style="color: #a855f7;">${esc(rec.customer_name)}</p>
+          <p class="text-xs" style="color: #7c3aed;">${esc(rec.mobile)}${rec.city ? ' · ' + esc(rec.city) : ''}</p>
+        </div>
+        <div class="text-right">
+          <p class="font-extrabold text-lg" style="color: #a855f7; font-family: 'Playfair Display', serif;">${totalStr}</p>
+          <p class="text-xs" style="color: #7c3aed;">${dateStr}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 gap-2 text-xs mb-3" style="color: #7c3aed;">
+        <div>Gross: <span style="color:#a855f7;">${rec.gross_weight}g</span></div>
+        <div>Net: <span style="color:#a855f7;">${rec.net_weight}g</span></div>
+        <div>Rate: <span style="color:#a855f7;">₹${rec.rate_per_gram}</span></div>
+        <div>Purity: <span style="color:#a855f7;">${rec.purity}%</span></div>
+      </div>
+      <div class="flex justify-end gap-2">
+        ${isConfirming ? `
+          <span class="text-xs py-1 px-2" style="color:#a855f7;">Delete this record?</span>
+          <button onclick="cancelDelete()" class="text-xs py-1 px-3 rounded-lg" style="background:rgba(168,85,247,0.15);color:#7c3aed;">Cancel</button>
+          <button data-del="${rec.__backendId}" onclick="deleteRecord('${rec.__backendId}')" class="text-xs py-1 px-3 rounded-lg font-semibold" style="background:#8b2020;color:#fff;">Confirm</button>
+        ` : `
+          <button data-del="${rec.__backendId}" onclick="deleteRecord('${rec.__backendId}')" class="text-xs py-1 px-3 rounded-lg" style="background:rgba(168,85,247,0.15);color:#7c3aed;">Delete</button>
+        `}
+      </div>
+    `;
+  }
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+  // Data SDK
+  const dataHandler = {
+    onDataChanged(data) {
+      allRecords = data;
+      renderRecords(data);
+    }
+  };
+
+  // Element SDK
+  function applyConfig(config) {
+    const title = config.app_title || defaultConfig.app_title;
+    const shop = config.shop_name || defaultConfig.shop_name;
+    document.getElementById('appTitle').textContent = title;
+    document.getElementById('shopName').textContent = shop;
+  }
+
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => { applyConfig(config); },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+        { get: () => config.muted_color || defaultConfig.muted_color, set: (v) => { config.muted_color = v; window.elementSdk.setConfig({ muted_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['app_title', config.app_title || defaultConfig.app_title],
+      ['shop_name', config.shop_name || defaultConfig.shop_name]
+    ])
+  });
+
+  // Init data SDK
+  (async () => {
+    const r = await window.dataSdk.init(dataHandler);
+    if (!r.isOk) console.error('Data SDK init failed');
+  })();
+
+  lucide.createIcons();
 </script>
-
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9eca37a997f77f43',t:'MTc3NjI0ODQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
 </html>
