@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-      
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link rel="icon" href="https://manichakragoldfin.in.net/Icon_cropped.png" type="image/png" />
-<title>Mani Chakra Gold Fin Services - The Gold Loan Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" href="https://manichakragoldfin.in.net/Icon_cropped.png" type="image/png"/>
 
-<meta name="description" content="Mani Chakra Gold Fin offers gold transfer, and loan Renewal services in Rajampet with best and trusted service.">
-<meta name="keywords" content="gold loan services Rajampet, gold loan near me, gold transfer, gold finance Rajampet, gold loan takeover, Mani Chakra Gold Fin">
-<meta name="robots" content="index, follow">
+<title>Mani Chakra Gold Fin Services</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
 font-family:'Segoe UI',sans-serif;
 overflow:hidden;
+background:#000;
 }
 
 /* CONTAINER */
@@ -39,7 +36,14 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-transition:transform 0.7s ease;
+transition:transform 0.8s ease, opacity 0.8s ease;
+opacity:0.3;
+}
+
+/* ACTIVE SLIDE */
+.slide.active{
+opacity:1;
+transform:scale(1);
 }
 
 /* COLORS */
@@ -52,23 +56,40 @@ transition:transform 0.7s ease;
 
 /* LOGO */
 .logo{
-width:120px;
+width:110px;
 margin-bottom:15px;
+border-radius:50%;
+box-shadow:0 0 20px rgba(255,215,0,0.6);
 animation:fadeIn 1s ease;
 }
 
 /* TEXT */
-h1{font-size:30px;margin-bottom:10px;}
-p{font-size:18px;max-width:400px;}
+h1{
+font-size:30px;
+margin-bottom:10px;
+letter-spacing:1px;
+}
+
+p{
+font-size:18px;
+max-width:400px;
+}
 
 /* BUTTON */
 .btn{
 margin-top:15px;
-padding:12px 20px;
+padding:12px 22px;
 background:#8C52FF;
 color:white;
-border-radius:5px;
+border-radius:30px;
 text-decoration:none;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn:hover{
+transform:scale(1.1);
+background:#6a2cff;
 }
 
 /* DOTS */
@@ -79,16 +100,20 @@ top:50%;
 transform:translateY(-50%);
 z-index:1000;
 }
+
 .dot{
 width:10px;
 height:10px;
 margin:8px;
-background:#ccc;
+background:#bbb;
 border-radius:50%;
 cursor:pointer;
+transition:0.3s;
 }
+
 .dot.active{
-background:#8C52FF;
+background:#FFD700;
+transform:scale(1.4);
 }
 
 /* ANIMATIONS */
@@ -101,44 +126,45 @@ to{opacity:1;transform:scale(1);}
 
 <body>
 
-<div class="container" id="container">
+<div class="container">
 
-<div class="slide">
-<img src="logo.png" class="logo">
+<!-- SLIDES -->
+<div class="slide active">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>Mani Chakra Gold Fin</h1>
 <p>Transfer your gold loan easily</p>
-<a href="tel:9876543210" class="btn">Call Now</a>
+<a href="tel:9876543210" class="btn">📞 Call Now</a>
 </div>
 
 <div class="slide">
-<img src="logo.png" class="logo">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>What We Do</h1>
-<p>We move your gold loan to a better lender.</p>
+<p>We move your gold loan to a better lender</p>
 </div>
 
 <div class="slide">
-<img src="logo.png" class="logo">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>Benefits</h1>
-<p>Lower interest • Higher value • Safe</p>
+<p>Lower interest • Higher value • Safe process</p>
 </div>
 
 <div class="slide">
-<img src="logo.png" class="logo">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>How It Works</h1>
-<p>Share → Compare → Transfer → Save</p>
+<p>Share → Compare → Transfer → Save money</p>
 </div>
 
 <div class="slide">
-<img src="logo.png" class="logo">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>Services</h1>
 <p>Transfer • Renewal • Part Release</p>
 </div>
 
 <div class="slide">
-<img src="logo.png" class="logo">
+<img src="https://manichakragoldfin.in.net/Icon_cropped.png" class="logo">
 <h1>Contact</h1>
 <p>Call or WhatsApp now</p>
-<a href="https://wa.me/919876543210" class="btn">WhatsApp</a>
+<a href="https://wa.me/919876543210" class="btn">💬 WhatsApp</a>
 </div>
 
 </div>
@@ -150,56 +176,45 @@ let current = 0;
 const slides = document.querySelectorAll(".slide");
 const dotsContainer = document.getElementById("dots");
 
-// SET INITIAL POSITIONS
-function setPositions(){
-slides.forEach((slide,i)=>{
-slide.style.transform = `translateY(${i*100}%)`;
-});
-}
-setPositions();
-
-// CREATE DOTS
-slides.forEach((_,i)=>{
-let dot = document.createElement("div");
-dot.classList.add("dot");
-if(i===0) dot.classList.add("active");
-dot.onclick = ()=>goToSlide(i);
-dotsContainer.appendChild(dot);
-});
-
-const dots = document.querySelectorAll(".dot");
-
-function goToSlide(index){
-current = index;
-updateSlides();
-}
-
+// POSITION
 function updateSlides(){
 slides.forEach((slide,i)=>{
 slide.style.transform = `translateY(${(i-current)*100}%)`;
+slide.classList.remove("active");
 });
+slides[current].classList.add("active");
+
 dots.forEach(dot=>dot.classList.remove("active"));
 dots[current].classList.add("active");
 }
 
-// SCROLL CONTROL (SMOOTH + SAFE)
-let isScrolling = false;
+// DOTS
+slides.forEach((_,i)=>{
+let dot=document.createElement("div");
+dot.classList.add("dot");
+if(i===0) dot.classList.add("active");
+dot.onclick=()=>{current=i;updateSlides();}
+dotsContainer.appendChild(dot);
+});
+
+const dots=document.querySelectorAll(".dot");
+
+// SCROLL CONTROL
+let isScrolling=false;
 
 window.addEventListener("wheel",(e)=>{
 if(isScrolling) return;
 
-if(e.deltaY>0 && current<slides.length-1){
-current++;
-}else if(e.deltaY<0 && current>0){
-current--;
-}else return;
+if(e.deltaY>0 && current<slides.length-1) current++;
+else if(e.deltaY<0 && current>0) current--;
+else return;
 
 updateSlides();
-isScrolling = true;
-setTimeout(()=>isScrolling=false,800);
+isScrolling=true;
+setTimeout(()=>isScrolling=false,700);
 });
 
-// TOUCH SUPPORT
+// TOUCH
 let startY=0;
 
 window.addEventListener("touchstart",(e)=>{
@@ -209,15 +224,14 @@ startY=e.touches[0].clientY;
 window.addEventListener("touchend",(e)=>{
 let endY=e.changedTouches[0].clientY;
 
-if(startY-endY>50 && current<slides.length-1){
-current++;
-}
-if(endY-startY>50 && current>0){
-current--;
-}
+if(startY-endY>50 && current<slides.length-1) current++;
+if(endY-startY>50 && current>0) current--;
 
 updateSlides();
 });
+
+// INIT
+updateSlides();
 </script>
 
 </body>
