@@ -219,63 +219,77 @@ let current = 0;
 const slides = document.querySelectorAll(".slide");
 const dotsContainer = document.getElementById("dots");
 
-// POSITION
-function updateSlides(){
-slides.forEach((slide,i)=>{
-slide.style.transform = `translateY(${(i-current)*100}%)`;
-slide.classList.remove("active");
-});
-slides[current].classList.add("active");
-
-dots.forEach(dot=>dot.classList.remove("active"));
-dots[current].classList.add("active");
-}
+// INIT
+window.onload = () => {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateY(${i * 100}%)`;
+  });
+  createDots();
+  update();
+};
 
 // DOTS
-slides.forEach((_,i)=>{
-let dot=document.createElement("div");
-dot.classList.add("dot");
-if(i===0) dot.classList.add("active");
-dot.onclick=()=>{current=i;updateSlides();}
-dotsContainer.appendChild(dot);
+function createDots() {
+  slides.forEach((_, i) => {
+    let d = document.createElement("div");
+    d.classList.add("dot");
+    if (i === 0) d.classList.add("active");
+    d.onclick = () => {
+      current = i;
+      update();
+    };
+    dotsContainer.appendChild(d);
+  });
+}
+
+// UPDATE
+function update() {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateY(${(i - current) * 100}%)`;
+  });
+
+  const dots = document.querySelectorAll(".dot");
+  dots.forEach(d => d.classList.remove("active"));
+  dots[current].classList.add("active");
+}
+
+// 🔁 CONTINUOUS SCROLL
+let lock = false;
+
+window.addEventListener("wheel", (e) => {
+  if (lock) return;
+
+  if (e.deltaY > 0) {
+    current = (current + 1) % slides.length;   // LOOP FORWARD
+  } else {
+    current = (current - 1 + slides.length) % slides.length; // LOOP BACK
+  }
+
+  update();
+  lock = true;
+  setTimeout(() => lock = false, 700);
 });
 
-const dots=document.querySelectorAll(".dot");
+// TOUCH LOOP
+let startY = 0;
 
-// SCROLL CONTROL
-let isScrolling=false;
-
-window.addEventListener("wheel",(e)=>{
-if(isScrolling) return;
-
-if(e.deltaY>0 && current<slides.length-1) current++;
-else if(e.deltaY<0 && current>0) current--;
-else return;
-
-updateSlides();
-isScrolling=true;
-setTimeout(()=>isScrolling=false,700);
+window.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
 });
 
-// TOUCH
-let startY=0;
+window.addEventListener("touchend", e => {
+  let endY = e.changedTouches[0].clientY;
 
-window.addEventListener("touchstart",(e)=>{
-startY=e.touches[0].clientY;
+  if (startY - endY > 50) {
+    current = (current + 1) % slides.length;
+  } else if (endY - startY > 50) {
+    current = (current - 1 + slides.length) % slides.length;
+  }
+
+  update();
 });
-
-window.addEventListener("touchend",(e)=>{
-let endY=e.changedTouches[0].clientY;
-
-if(startY-endY>50 && current<slides.length-1) current++;
-if(endY-startY>50 && current>0) current--;
-
-updateSlides();
-});
-
-// INIT
-updateSlides();
 </script>
+
 
 </body>
 </html>
